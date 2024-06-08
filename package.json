@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "application that provides USD to UAH exchange rate",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build": "tsc --build",
@@ -29,7 +30,6 @@
     "@types/uuid": "^9.0.8",
     "axios": "^1.6.8",
     "body-parser": "^1.20.2",
-    "chai": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
@@ -43,7 +43,7 @@
     "sequelize-typescript": "0.6.6",
     "sinon": "^18.0.0",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1"

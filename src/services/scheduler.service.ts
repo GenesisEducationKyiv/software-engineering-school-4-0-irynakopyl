@@ -19,7 +19,7 @@ export class SchedulerService {
     };
     const subscriptionService = new SubscriptionsService();
     scheduler.scheduleJob('0 0 * * *', async () => {
-    console.log(`${new Date()} going to send emails to subsribed user`);
+      console.log(`${new Date()} going to send emails to subsribed user`);
       const subcriptions = await subscriptionService.getAll();
       const currentRate = await ExchangerService.getCurrentRate();
       const emailAddresses = subcriptions.map((subscr) => subscr.email);

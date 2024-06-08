@@ -1,13 +1,13 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { ExchangerService } from '../services/exhanger.service';
-import { invalidStatusCode, successStatusCode } from '../models/status-codes.model';
+import { StatusCode } from '../models/status-codes.model';
 
 export const exchangerRouter = Router();
 
-exchangerRouter.get('/', async (request, response) => {
+exchangerRouter.get('/', async (request: Request, response: Response) => {
   const currentRate = await ExchangerService.getCurrentRate();
   if (!currentRate) {
-    response.status(invalidStatusCode).json('Invalid status value');
+    response.status(StatusCode.Invalid).json('Invalid status value');
   }
-  response.status(successStatusCode).json(currentRate);
+  response.status(StatusCode.Success).json(currentRate);
 });
