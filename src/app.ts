@@ -19,8 +19,8 @@ app.use('/rate', exchangerRouter);
 export async function initApp() {
   const databaseService = new DatabaseService();
   try {
-    connectToDatabase(config.db);
-    databaseService.authenticate();
+    await connectToDatabase(config.db);
+    await databaseService.authenticate();
     SchedulerService.init();
   } catch (error) {
     console.log('Error received while connecting to DB or Scheduling emails: ', error);
