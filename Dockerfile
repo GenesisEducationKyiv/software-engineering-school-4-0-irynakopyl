@@ -9,4 +9,3 @@ EXPOSE 8080
 RUN npm run build
 
 CMD npm run migrate-up;npm run start
-
