@@ -1,6 +1,4 @@
 import request from 'supertest';
-import express from 'express';
-import { exchangerRouter } from '../routers/exchanger.router';
 import { ExchangerService } from '../services/exhanger.service';
 import * as sinon from 'sinon';
 import { StatusCode } from '../models/status-codes.model';
