@@ -34,6 +34,6 @@ describe('Subscription router', () => {
 
   it('should fail to process the request with invalid email', async () => {
     const response = await request(app).post('/subscribe').send({ email: 'blah-blah-blah' });
-    expect(response.status).toBe(StatusCode.UnprocessableEntity);
+    expect(response.status).toBe(StatusCode.BadRequest);
   });
 });

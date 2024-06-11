@@ -25,6 +25,6 @@ describe('Exchanger router', () => {
     exchangerServiceStub.resolves();
 
     const response = await request(app).get('/rate');
-    expect(response.status).toBe(StatusCode.Invalid);
+    expect(response.status).toBe(StatusCode.BadRequest);
   });
 });
