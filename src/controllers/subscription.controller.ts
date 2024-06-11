@@ -7,7 +7,7 @@ export async function subscribe(request: Request, response: Response) {
   const subscriptionService = new SubscriptionsService();
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
-    return response.status(StatusCode.UnprocessableEntity).json(errors.array());
+    return response.status(StatusCode.BadRequest).json(errors.array());
   }
 
   const email = request.body.email as string;
