@@ -6,7 +6,7 @@ import { ExchangerService } from './exhanger.service';
 
 export class SchedulerService {
   public static init(): void {
-    let transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
         user: config.api.emailServer.user,

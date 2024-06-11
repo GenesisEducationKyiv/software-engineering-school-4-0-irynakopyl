@@ -10,7 +10,8 @@
     "migrate": "node-pg-migrate -m src/db/migrations -j ts",
     "migrate-up": "ts-node --transpileOnly ./src/db/migrate-up.ts",
     "migrate-down": "ts-node --transpileOnly ./src/db/migrate-down.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint": "npx eslint ./src"
   },
   "keywords": [
     "currency"
@@ -18,7 +19,8 @@
   "author": "Iryna Kopyl",
   "license": "ISC",
   "devDependencies": {
-    "@types/chai": "^4.3.16",
+    "@eslint/js": "^9.4.0",
+    "@types/eslint__js": "^8.42.3",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
@@ -30,8 +32,10 @@
     "axios": "^1.6.8",
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
+    "globals": "^15.4.0",
     "jest": "^29.7.0",
     "node-pg-migrate": "^7.3.2",
     "node-schedule": "^2.1.1",
@@ -45,6 +49,7 @@
     "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
+    "typescript-eslint": "^7.12.0",
     "uuid": "^9.0.1"
   },
   "dependencies": {
