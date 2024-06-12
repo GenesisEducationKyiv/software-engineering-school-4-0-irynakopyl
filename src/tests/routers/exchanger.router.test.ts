@@ -1,8 +1,8 @@
 import request from 'supertest';
-import { ExchangerService } from '../services/exhanger.service';
+import { ExchangerService } from '../../services/exhanger.service';
 import * as sinon from 'sinon';
-import { StatusCode } from '../models/status-codes.model';
-import { app } from '../app';
+import { StatusCode } from '../../models/status-codes.model';
+import { app } from '../../app';
 
 describe('Exchanger router', () => {
   let exchangerServiceStub: sinon.SinonStub;

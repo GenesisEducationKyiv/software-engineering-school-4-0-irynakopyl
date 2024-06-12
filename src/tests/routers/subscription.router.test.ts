@@ -1,9 +1,9 @@
 import request from 'supertest';
-import { SubscriptionsService } from '../services/subscription.service';
+import { SubscriptionsService } from '../../services/subscription.service';
 import * as sinon from 'sinon';
-import Subscription from '../db/models/subscription.model';
-import { StatusCode } from '../models/status-codes.model';
-import { app } from '../app';
+import Subscription from '../../db/models/subscription.model';
+import { StatusCode } from '../../models/status-codes.model';
+import { app } from '../../app';
 
 describe('Subscription router', () => {
   const userEmail = 'existing@user.com';

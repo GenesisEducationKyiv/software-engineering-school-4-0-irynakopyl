@@ -1,17 +1,6 @@
 import nodemailer from 'nodemailer';
 import { config } from '../config';
-
-interface EmailPayload {
-  from: string;
-  to: string;
-  message: string;
-  subject: string;
-}
-
-interface CurrencyRateEmailPayload {
-  currencyRate: number;
-  to: string;
-}
+import { CurrencyRateEmailPayload, EmailPayload } from '../models/email-payload';
 
 export class EmailService {
   private emailSender;

@@ -12,7 +12,7 @@ interface CurrencyRateApiResponse {
 export class ExchangerService {
   public static async getCurrentRate(): Promise<number> {
     const ratesResponse = await axios.get(config.api.currencyUrl);
-    if (!ratesResponse) {
+    if (!ratesResponse || !ratesResponse.data) {
       throw new Error(`Currency rates API is unavailable`);
     }
     const allCurrentRates: CurrencyRateApiResponse[] = ratesResponse.data;
