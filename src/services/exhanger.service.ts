@@ -10,17 +10,16 @@ interface CurrencyRateApiResponse {
 }
 
 export class ExchangerService {
-  public static async getCurrentRate(): Promise<number | undefined> {
-    try {
-      const ratesResponse = await axios.get(config.api.currencyUrl);
-      if (!ratesResponse) {
-        return;
-      }
-      const allCurrentRates: CurrencyRateApiResponse[] = ratesResponse.data;
-      return allCurrentRates.find((row) => row.ccy === Currency.USD)?.sale;
-    } catch (error) {
-      console.log('Error while retrieving currency exchange rate', error);
-      return;
+  public static async getCurrentRate(): Promise<number> {
+    const ratesResponse = await axios.get(config.api.currencyUrl);
+    if (!ratesResponse) {
+      throw new Error(`Currency rates API is unavailable`);
     }
+    const allCurrentRates: CurrencyRateApiResponse[] = ratesResponse.data;
+    const usdRate = allCurrentRates.find((row) => row.ccy === Currency.USD)?.sale;
+    if (!usdRate) {
+      throw new Error(`Service does not have information about current currency rate`);
+    }
+    return usdRate;
   }
 }
