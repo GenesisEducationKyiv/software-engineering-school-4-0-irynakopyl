@@ -1,5 +1,4 @@
 import scheduler from 'node-schedule';
-import { sendDailyRateEmail } from '../jobs/rates-notification.job';
 
 export class SchedulerService {
   public static initializeJob(cronSchedule: string, jobFunction: () => Promise<void>): void {
