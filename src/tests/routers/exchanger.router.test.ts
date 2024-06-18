@@ -1,30 +1,36 @@
 import request from 'supertest';
-import { ExchangerService } from '../../services/exhanger.service';
 import * as sinon from 'sinon';
 import { StatusCode } from '../../models/status-codes.model';
 import { app } from '../../app';
+import axios from 'axios';
 
 describe('Exchanger router', () => {
-  let exchangerServiceStub: sinon.SinonStub;
+  let axiosGetStub: sinon.SinonStub;
 
   beforeEach(() => {
-    exchangerServiceStub = sinon.stub(ExchangerService, 'getCurrentRate');
+    axiosGetStub = sinon.stub(axios, 'get');
   });
 
   afterEach(sinon.restore);
 
   it('should respond with a greeting message', async () => {
-    exchangerServiceStub.resolves(2);
+    const ratesData = {
+      data: [
+        { ccy: 'USD', base_ccy: 'UAH', buy: 27.5, sale: 28.1 },
+        { ccy: 'EUR', base_ccy: 'UAH', buy: 32.5, sale: 33.2 },
+      ],
+    };
+    axiosGetStub.resolves(ratesData);
 
     const response = await request(app).get('/rate');
     expect(response.status).toBe(StatusCode.Success);
-    expect(response.body).toBe(2);
+    expect(response.body).toBe(28.1);
   });
 
   it('should respond with an invalid status value if no rate value is present', async () => {
-    exchangerServiceStub.resolves();
+    axiosGetStub.resolves();
 
     const response = await request(app).get('/rate');
-    expect(response.status).toBe(StatusCode.BadRequest);
+    expect(response.status).toBe(StatusCode.InternalError);
   });
 });
