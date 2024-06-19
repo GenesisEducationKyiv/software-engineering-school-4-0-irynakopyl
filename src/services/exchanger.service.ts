@@ -17,7 +17,6 @@ export class ExchangerService {
     const allCurrentRates: Rate[] = await this.exchangeClient.getCurrencyRates();
 
     const currentRate = allCurrentRates.find((row) => row.ccy === currency)?.sale;
-    console.log(`Current rate for ${currency} is ${currentRate}`);
     if (!currentRate) {
       throw new Error(`Service does not have information about current currency rate ${currency}`);
     }
