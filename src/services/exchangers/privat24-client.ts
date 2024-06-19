@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ExchangeClientInterface, Rate } from '../exhanger.service';
+import { ExchangeClientInterface, Rate } from '../exchanger.service';
 import { config } from '../../config';
 
 export class Privat24Client implements ExchangeClientInterface {
@@ -10,7 +10,7 @@ export class Privat24Client implements ExchangeClientInterface {
 
   public async getCurrencyRates(): Promise<Rate[]> {
     const ratesResponse = await this.axiosInstance.get('');
-    if (!ratesResponse.data) {
+    if (!ratesResponse?.data) {
       throw new Error('Currency rates API is unavailable');
     }
     return ratesResponse.data as Rate[];
