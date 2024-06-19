@@ -16,4 +16,7 @@ export const config = {
     },
     currencyUrl: 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5',
   },
+  cron: {
+    currencyRateEmailSchedule: '0 0 * * *',
+  },
 };
