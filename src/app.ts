@@ -22,9 +22,9 @@ export async function initApp() {
   try {
     await connectToDatabase(config.db);
     await databaseService.authenticate();
-    SchedulerService.initializeJob('* * * * *', sendDailyRateEmail);
+    SchedulerService.initializeJob(config.cron.currencyRateEmailSchedule, sendDailyRateEmail);
   } catch (error) {
-    console.log('Error received while connecting to DB or Scheduling emails: ', error);
+    console.error('Error received while initializing application: ', error);
     await SchedulerService.shutdown();
     exit(1);
   }
