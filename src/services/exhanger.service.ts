@@ -1,26 +1,25 @@
-import axios from 'axios';
-import { config } from '../config';
 import { Currency } from '../models/currency';
 
-interface CurrencyRateApiResponse {
-  ccy: Currency;
-  base_ccy: Currency;
+export interface Rate {
+  ccy: string;
   buy: number;
   sale: number;
 }
 
+export interface ExchangeClientInterface {
+  getCurrencyRates(): Promise<Rate[]>;
+}
+
 export class ExchangerService {
-  public static async getCurrentRate(): Promise<number | undefined> {
-    try {
-      const ratesResponse = await axios.get(config.api.currencyUrl);
-      if (!ratesResponse) {
-        return;
-      }
-      const allCurrentRates: CurrencyRateApiResponse[] = ratesResponse.data;
-      return allCurrentRates.find((row) => row.ccy === Currency.USD)?.sale;
-    } catch (error) {
-      console.log('Error while retrieving currency exchange rate', error);
-      return;
+  constructor(private exchangeClient: ExchangeClientInterface) {}
+
+  public async getCurrentRate(currency: Currency): Promise<number> {
+    const allCurrentRates: Rate[] = await this.exchangeClient.getCurrencyRates();
+
+    const currentRate = allCurrentRates.find((row) => row.ccy === currency)?.sale;
+    if (!currentRate) {
+      throw new Error(`Service does not have information about current currency rate ${currency}`);
     }
+    return currentRate;
   }
 }

@@ -15,6 +15,6 @@ migrate({
   },
   dir: `${__dirname}/migrations`,
 }).catch((error) => {
-  console.log('Error when running migrate up ', error);
+  console.error('Error when running migrate up ', error);
   exit(1);
 });

@@ -8,7 +8,7 @@ describe('Exchanger router', () => {
   let exchangerServiceStub: sinon.SinonStub;
 
   beforeEach(() => {
-    exchangerServiceStub = sinon.stub(ExchangerService, 'getCurrentRate');
+    exchangerServiceStub = sinon.stub(ExchangerService.prototype, 'getCurrentRate');
   });
 
   afterEach(sinon.restore);

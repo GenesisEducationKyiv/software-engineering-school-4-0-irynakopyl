@@ -7,6 +7,7 @@ import { SchedulerService } from './services/scheduler.service';
 import * as bodyParser from 'body-parser';
 import { subscriptionRouter } from './routers/subscription.router';
 import { exchangerRouter } from './routers/exchanger.router';
+import { sendDailyRateEmail } from './jobs/rates-notification.job';
 
 export const app = express();
 
@@ -21,9 +22,9 @@ export async function initApp() {
   try {
     await connectToDatabase(config.db);
     await databaseService.authenticate();
-    SchedulerService.init();
+    SchedulerService.initializeJob(config.cron.currencyRateEmailSchedule, sendDailyRateEmail);
   } catch (error) {
-    console.log('Error received while connecting to DB or Scheduling emails: ', error);
+    console.error('Error received while initializing application: ', error);
     await SchedulerService.shutdown();
     exit(1);
   }
