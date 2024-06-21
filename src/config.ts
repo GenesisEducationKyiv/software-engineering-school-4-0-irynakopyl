@@ -14,7 +14,11 @@ export const config = {
       user: String(process.env.AUTH_EMAIL),
       password: String(process.env.AUTH_PASSWORD),
     },
-    currencyUrl: 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5',
+    currency: {
+      privat: 'https://api.privatbank.ua/p24api',
+      nbu: 'https://bank.gov.ua/NBUStatService/v1',
+      mono: 'https://api.monobank.ua/bank/currency',
+    },
   },
   cron: {
     currencyRateEmailSchedule: '0 0 * * *',
