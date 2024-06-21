@@ -30,5 +30,7 @@ To run an application you need to:
    `nvm` is convinient to complete this step (https://github.com/nvm-sh/nvm)
 4. To apply migrations use `npm run migrate-up`
 5. Run to setup the server `npm i` `npm run build` `npm run start`
+6. Jest is used to run tests. You can do it with `npm run test`
+7. To run load tests you can use `k6 run src/tests/loading/<name-of-file>.js`. Read more about k6 at `https://k6.io/`
 
 Note: app uses Google credentials authentication, but from September 30th it is going to be blocked. Possible solution - switch to use OAuth for sending emails.
