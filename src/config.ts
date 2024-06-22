@@ -15,7 +15,7 @@ export const config = {
       password: String(process.env.AUTH_PASSWORD),
     },
     currency: {
-      privat: 'https://api.privatbank.ua/p24api',
+      privat: 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5',
       nbu: 'https://bank.gov.ua/NBUStatService/v1',
       mono: 'https://api.monobank.ua/bank/currency',
     },

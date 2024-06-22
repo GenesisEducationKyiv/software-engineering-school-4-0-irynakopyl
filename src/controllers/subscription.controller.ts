@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCode } from '../models/status-codes.model';
-import { SubscriptionsRepository } from '../services/subscription.service';
+import { SubscriptionsService } from '../services/subscription.service';
+import { SubscriptionsRepository } from '../repositories/subscriprion.repository';
 
 export async function subscribe(request: Request, response: Response) {
-  const subscriptionRepository = new SubscriptionsRepository();
+  const subscriptionRepository = new SubscriptionsService(new SubscriptionsRepository());
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(StatusCode.BadRequest).json(errors.array());

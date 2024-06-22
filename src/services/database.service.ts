@@ -1,26 +1,27 @@
 import { sequelize } from '../db/models/db';
+import logger from './logger.service';
 
 export class DatabaseService {
   public async authenticate(): Promise<void> {
     try {
       await sequelize.authenticate();
-      console.log('Connection has been established successfully.');
+      logger.info(`Connection has been established successfully.`);
     } catch (error) {
-      console.error('Unable to connect to the database:', error);
+      logger.error(`Unable to connect to the database: ${JSON.stringify(error)}`);
       throw error;
     }
   }
 
   public async closeConnection(): Promise<void> {
     if (!sequelize) {
-      console.log('Connection was not established, nothing to close.');
+      logger.info('Connection was not established, nothing to close.');
       return;
     }
     try {
       await sequelize.close();
-      console.log('Connection has been closed successfully.');
+      logger.info('Connection has been closed successfully.');
     } catch (error) {
-      console.error('Unable to connect to the database:', error);
+      logger.error(`Unable to connect to the database: ${JSON.stringify(error)}`);
       throw error;
     }
   }
