@@ -1,7 +1,4 @@
 import { ExchangeClient } from './exchanger.service';
-import { MonobankClient } from './exchangers/monobank-client';
-import { NBUClient } from './exchangers/nbu-client';
-import { Privat24Client } from './exchangers/privat24-client';
 
 interface ExchangeHandler extends ExchangeClient {
   setNext(handler: ExchangeHandler): ExchangeHandler;
@@ -30,8 +27,3 @@ export class BanksExchangeHandler implements ExchangeHandler {
     }
   }
 }
-const monobankHandler = new BanksExchangeHandler(new MonobankClient());
-const nbuHandler = new BanksExchangeHandler(new NBUClient());
-const privat24Handler = new BanksExchangeHandler(new Privat24Client());
-const ukrainianBankExchangeHandler = monobankHandler.setNext(nbuHandler).setNext(privat24Handler);
-export default ukrainianBankExchangeHandler;

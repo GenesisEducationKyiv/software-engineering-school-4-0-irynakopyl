@@ -13,6 +13,7 @@ export const config = {
     emailServer: {
       user: String(process.env.AUTH_EMAIL),
       password: String(process.env.AUTH_PASSWORD),
+      rateLimit: 100,
     },
     currency: {
       privat: 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5',

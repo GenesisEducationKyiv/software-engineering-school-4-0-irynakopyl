@@ -2,7 +2,7 @@ import Subscription from '../db/models/subscription.model';
 
 export interface SubscriptionRepository {
   create(email: string): Promise<Subscription>;
-  getAll(): Promise<Subscription[]>;
+  getAll(config?: { limit?: number; startingBefore?: Date }): Promise<Subscription[]>;
   findByEmail(email: string): Promise<Subscription | null>;
 }
 
@@ -16,7 +16,7 @@ export class SubscriptionsService {
     return this.repository.findByEmail(email);
   }
 
-  public async getAll(): Promise<Subscription[]> {
-    return this.repository.getAll();
+  public async getAll(config?: { limit?: number; createdAfter?: Date }): Promise<Subscription[]> {
+    return this.repository.getAll(config);
   }
 }

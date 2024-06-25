@@ -3,7 +3,6 @@ import { config } from '../../config';
 import { ExchangeClient } from '../exchanger.service';
 import { ISO4217CurrencyCodes } from '../../models/currency';
 import logger from '../logger.service';
-import * as _ from 'lodash';
 
 export class MonobankClient implements ExchangeClient {
   private axiosInstance;
@@ -18,9 +17,9 @@ export class MonobankClient implements ExchangeClient {
     if (!ratesResponse?.data) {
       throw new Error('Monobank currency rates API is unavailable');
     }
-    const currentRate = _.find(
-      ratesResponse.data,
-      (rateData) => rateData.currencyCodeA === ISO4217CurrencyCodes.USD && rateData.currencyCodeB === ISO4217CurrencyCodes.UAH,
+    const currentRate = ratesResponse.data.find(
+      (rateData: { currencyCodeA: ISO4217CurrencyCodes; currencyCodeB: ISO4217CurrencyCodes; rateSell: number }) =>
+        rateData.currencyCodeA === ISO4217CurrencyCodes.USD && rateData.currencyCodeB === ISO4217CurrencyCodes.UAH,
     );
     if (!currentRate) {
       throw new Error('Monobank currency rates API does not provide USD rate');

@@ -2,7 +2,6 @@ import axios from 'axios';
 import { ExchangeClient } from '../exchanger.service';
 import { config } from '../../config';
 import { Currency } from '../../models/currency';
-import * as _ from 'lodash';
 import logger from '../logger.service';
 
 export class Privat24Client implements ExchangeClient {
@@ -18,7 +17,7 @@ export class Privat24Client implements ExchangeClient {
     if (!ratesResponse?.data) {
       throw new Error('Privat24 currency rates API is unavailable');
     }
-    const currentRate = _.find(ratesResponse.data, (rateData) => rateData.ccy === Currency.USD);
+    const currentRate = ratesResponse.data.find((rateData: { ccy: Currency; sale: number }) => rateData.ccy === Currency.USD);
     if (!currentRate) {
       throw new Error('Privat24 currency rates API does not provide USD rate');
     }

@@ -3,7 +3,6 @@ import { ExchangeClient } from '../exchanger.service';
 import { config } from '../../config';
 import { Currency } from '../../models/currency';
 import logger from '../logger.service';
-import * as _ from 'lodash';
 
 export class NBUClient implements ExchangeClient {
   private axiosInstance;
@@ -19,7 +18,7 @@ export class NBUClient implements ExchangeClient {
     if (!ratesResponse?.data) {
       throw new Error('NBU currency rates API is unavailable');
     }
-    const currentRate = _.find(ratesResponse.data, (rateData) => rateData.cc === Currency.USD);
+    const currentRate = ratesResponse.data.find((rateData: { cc: Currency; rate: number }) => rateData.cc === Currency.USD);
     if (!currentRate) {
       throw new Error('NBU currency rates API does not provide USD rate');
     }
