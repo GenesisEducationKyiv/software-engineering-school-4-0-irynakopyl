@@ -13,8 +13,13 @@ export const config = {
     emailServer: {
       user: String(process.env.AUTH_EMAIL),
       password: String(process.env.AUTH_PASSWORD),
+      rateLimit: 100,
     },
-    currencyUrl: 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5',
+    currency: {
+      privat: 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5',
+      nbu: 'https://bank.gov.ua/NBUStatService/v1',
+      mono: 'https://api.monobank.ua/bank/currency',
+    },
   },
   cron: {
     currencyRateEmailSchedule: '0 0 * * *',

@@ -1,11 +1,12 @@
 import { app, initApp } from './app';
+import logger from './services/logger.service';
 
 const port = process.env.PORT || 3000;
 
-initApp().catch((error)=>{
-  console.log(error);
+initApp().catch((error) => {
+  logger.info(error);
 });
 
 app.listen(port, async () => {
-  console.log(`Running on port ${port}`);
+  logger.info(`Running on port ${port}`);
 });

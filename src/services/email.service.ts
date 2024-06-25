@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { config } from '../config';
 import { CurrencyRateEmailPayload, EmailPayload } from '../models/email-payload';
+import logger from './logger.service';
 
 export class EmailService {
   private emailSender;
@@ -17,7 +18,7 @@ export class EmailService {
 
   public async sendCurrencyRateEmail(params: CurrencyRateEmailPayload): Promise<void> {
     const emailPayload = this.buildCurrencyRateEmailPayload(params);
-    console.log(`Sending currency rate email with payload ${JSON.stringify(emailPayload)}`);
+    logger.info(`Sending currency rate email with payload ${JSON.stringify(emailPayload)}`);
     await this.sendEmail(emailPayload);
   }
 

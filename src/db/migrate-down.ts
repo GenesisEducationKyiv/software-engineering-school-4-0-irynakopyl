@@ -1,6 +1,7 @@
 import { exit } from 'process';
 import { config } from '../config';
 import migrate from 'node-pg-migrate';
+import logger from '../services/logger.service';
 
 const databaseConfig = config.db;
 migrate({
@@ -15,6 +16,6 @@ migrate({
   },
   dir: `${__dirname}/migrations`,
 }).catch((error) => {
-  console.error('Error when running migrate down ', error);
+  logger.error(`Error when running migrate down  ${JSON.stringify(error)}`);
   exit(1);
 });

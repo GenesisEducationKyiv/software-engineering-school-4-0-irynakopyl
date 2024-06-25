@@ -1,16 +1,22 @@
 import Subscription from '../db/models/subscription.model';
-import { v4 as uuidv4 } from 'uuid';
+
+export interface SubscriptionRepository {
+  create(email: string): Promise<Subscription>;
+  getAll(config?: { limit?: number; startingBefore?: Date }): Promise<Subscription[]>;
+  findByEmail(email: string): Promise<Subscription | null>;
+}
 
 export class SubscriptionsService {
+  constructor(private repository: SubscriptionRepository) {}
   public async create(email: string): Promise<Subscription> {
-    return Subscription.create({ id: uuidv4(), createdAt: new Date(), email });
+    return this.repository.create(email);
   }
 
   public async findByEmail(email: string): Promise<Subscription | null> {
-    return Subscription.findOne({ where: { email: email } });
+    return this.repository.findByEmail(email);
   }
 
-  public async getAll(): Promise<Subscription[]> {
-    return Subscription.findAll({ attributes: ['email'] });
+  public async getAll(config?: { limit?: number; createdAfter?: Date }): Promise<Subscription[]> {
+    return this.repository.getAll(config);
   }
 }

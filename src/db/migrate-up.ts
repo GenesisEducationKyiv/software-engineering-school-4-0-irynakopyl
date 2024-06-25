@@ -1,8 +1,10 @@
 import { exit } from 'process';
 import { config } from '../config';
 import migrate from 'node-pg-migrate';
+import logger from '../services/logger.service';
 
 const databaseConfig = config.db;
+
 migrate({
   direction: 'up',
   migrationsTable: 'pgmigrations',
@@ -15,6 +17,6 @@ migrate({
   },
   dir: `${__dirname}/migrations`,
 }).catch((error) => {
-  console.error('Error when running migrate up ', error);
+  logger.error(`Error when running migrate up: ${JSON.stringify(error)}`);
   exit(1);
 });

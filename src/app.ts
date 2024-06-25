@@ -8,6 +8,7 @@ import * as bodyParser from 'body-parser';
 import { subscriptionRouter } from './routers/subscription.router';
 import { exchangerRouter } from './routers/exchanger.router';
 import { sendDailyRateEmail } from './jobs/rates-notification.job';
+import logger from './services/logger.service';
 
 export const app = express();
 
@@ -24,7 +25,7 @@ export async function initApp() {
     await databaseService.authenticate();
     SchedulerService.initializeJob(config.cron.currencyRateEmailSchedule, sendDailyRateEmail);
   } catch (error) {
-    console.error('Error received while initializing application: ', error);
+    logger.error(`Error received while initializing application:  ${JSON.stringify(error)}`);
     await SchedulerService.shutdown();
     exit(1);
   }
