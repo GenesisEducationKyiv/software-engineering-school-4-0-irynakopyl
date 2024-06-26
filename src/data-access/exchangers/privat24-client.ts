@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ExchangeClient } from '../exchanger.service';
+import { ExchangeClient } from '../../service/services/exchanger.service';
 import { config } from '../../config';
-import { Currency } from '../../models/currency';
-import logger from '../logger.service';
+import { Currency } from '../../service/models/currency';
+import logger from '../../service/services/logger.service';
 
 export class Privat24Client implements ExchangeClient {
   private axiosInstance;
