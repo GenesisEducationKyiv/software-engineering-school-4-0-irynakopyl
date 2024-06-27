@@ -1,14 +1,14 @@
 import express from 'express';
 import { config } from './config';
-import { connectToDatabase } from './db/models/db';
+import { connectToDatabase } from './data-access/db/models/db';
 import { exit } from 'process';
-import { DatabaseService } from './services/database.service';
-import { SchedulerService } from './services/scheduler.service';
+import { DatabaseService } from './service/services/database.service';
+import { SchedulerService } from './service/services/scheduler.service';
 import * as bodyParser from 'body-parser';
-import { subscriptionRouter } from './routers/subscription.router';
-import { exchangerRouter } from './routers/exchanger.router';
-import { sendDailyRateEmail } from './jobs/rates-notification.job';
-import logger from './services/logger.service';
+import { subscriptionRouter } from './router/routers/subscription.router';
+import { exchangerRouter } from './router/routers/exchanger.router';
+import { sendDailyRateEmail } from './service/jobs/rates-notification.job';
+import logger from './service/services/logger.service';
 
 export const app = express();
 

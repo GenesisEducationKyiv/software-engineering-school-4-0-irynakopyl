@@ -1,11 +1,11 @@
-import { config } from '../config';
-import { SubscriptionsRepository } from '../repositories/subscriprion.repository';
+import { config } from '../../config';
+import { SubscriptionsRepository } from '../../data-access/repositories/subscriprion.repository';
 import { BanksExchangeHandler } from '../services/bank-exchange-handler';
 import { EmailService } from '../services/email.service';
 import { ExchangerService } from '../services/exchanger.service';
-import { MonobankClient } from '../services/exchangers/monobank-client';
-import { NBUClient } from '../services/exchangers/nbu-client';
-import { Privat24Client } from '../services/exchangers/privat24-client';
+import { MonobankClient } from '../../data-access/exchangers/monobank-client';
+import { NBUClient } from '../../data-access/exchangers/nbu-client';
+import { Privat24Client } from '../../data-access/exchangers/privat24-client';
 import logger from '../services/logger.service';
 import { SubscriptionsService } from '../services/subscription.service';
 

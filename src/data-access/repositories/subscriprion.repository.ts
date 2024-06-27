@@ -1,6 +1,6 @@
 import Subscription from '../db/models/subscription.model';
 import { v4 as uuidv4 } from 'uuid';
-import { SubscriptionRepository } from '../services/subscription.service';
+import { SubscriptionRepository } from '../../service/services/subscription.service';
 import { Op } from 'sequelize';
 
 export class SubscriptionsRepository implements SubscriptionRepository {
