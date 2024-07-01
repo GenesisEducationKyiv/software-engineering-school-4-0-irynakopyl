@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Privat24Client } from '../../data-access/exchangers/privat24-client';
+import { Privat24Client } from '../../rate/data-access/exchangers/privat24-client';
 import sinon from 'sinon';
 
 describe('Privat24Client', () => {

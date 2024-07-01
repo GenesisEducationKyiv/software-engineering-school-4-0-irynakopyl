@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { ExchangerService } from '../../service/services/exchanger.service';
-import { StatusCode } from '../models/status-codes.model';
-import { BanksExchangeHandler } from '../../service/services/bank-exchange-handler';
+import { ExchangerService } from '../../service/exchanger.service';
+import { StatusCode } from '../../../router/models/status-codes.model';
 import { MonobankClient } from '../../data-access/exchangers/monobank-client';
 import { NBUClient } from '../../data-access/exchangers/nbu-client';
 import { Privat24Client } from '../../data-access/exchangers/privat24-client';
+import { BanksExchangeHandler } from '../../service/bank-exchange-handler';
 
 export async function getCurrentRate(req: Request, res: Response) {
   try {

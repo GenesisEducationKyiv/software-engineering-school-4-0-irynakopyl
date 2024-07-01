@@ -1,7 +1,3 @@
-export interface Rate {
-  rate: number;
-}
-
 export interface ExchangeClient {
   getCurrencyRate(): Promise<number>;
 }
