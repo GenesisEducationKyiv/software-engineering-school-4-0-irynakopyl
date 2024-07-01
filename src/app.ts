@@ -2,13 +2,13 @@ import express from 'express';
 import { config } from './config';
 import { connectToDatabase } from './db/models/db';
 import { exit } from 'process';
-import { DatabaseService } from './services/database.service';
-import { SchedulerService } from './services/scheduler.service';
+import { DatabaseService } from './common/services/database.service';
+import { SchedulerService } from './common/services/scheduler.service';
 import * as bodyParser from 'body-parser';
 import { subscriptionRouter } from './routers/subscription.router';
 import { exchangerRouter } from './routers/exchanger.router';
 import { sendDailyRateEmail } from './jobs/rates-notification.job';
-import logger from './services/logger.service';
+import logger from './common/services/logger.service';
 
 export const app = express();
 

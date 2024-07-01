@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ExchangerService } from '../services/exchanger.service';
-import { StatusCode } from '../models/status-codes.model';
+import { StatusCode } from '../../common/models/status-codes.model';
 import { BanksExchangeHandler } from '../services/bank-exchange-handler';
 import { MonobankClient } from '../services/exchangers/monobank-client';
 import { NBUClient } from '../services/exchangers/nbu-client';

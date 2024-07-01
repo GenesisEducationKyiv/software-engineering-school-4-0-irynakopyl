@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import sinon from 'sinon';
-import { NBUClient } from '../../services/exchangers/nbu-client';
+import { NBUClient } from '../../common/services/exchangers/nbu-client';
 
 describe('NBUClient', () => {
   let axiosCreateStub: sinon.SinonStub;

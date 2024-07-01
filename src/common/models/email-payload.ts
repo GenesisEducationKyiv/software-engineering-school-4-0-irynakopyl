@@ -4,8 +4,3 @@ export interface EmailPayload {
   message: string;
   subject: string;
 }
-
-export interface CurrencyRateEmailPayload {
-  currencyRate: number;
-  to: string;
-}

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ExchangeClient } from '../exchanger.service';
-import { config } from '../../config';
+import { config } from '../../../config';
 import { Currency } from '../../models/currency';
-import logger from '../logger.service';
+import logger from '../../../common/services/logger.service';
 
 export class NBUClient implements ExchangeClient {
   private axiosInstance;
