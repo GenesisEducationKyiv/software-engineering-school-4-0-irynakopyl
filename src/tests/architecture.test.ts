@@ -15,7 +15,7 @@ describe('architecture', () => {
   });
 
   it('service layer should not depend on the data access', async () => {
-    const rule = filesOfProject().inFolder('service').shouldNot().dependOnFiles().inFolder('data-acess');
+    const rule = filesOfProject().inFolder('service').shouldNot().dependOnFiles().inFolder('data-access');
 
     await expect(rule).toPassAsync();
   });

@@ -1,21 +1,21 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import { StatusCode } from '../models/status-codes.model';
-import { SubscriptionsService } from '../../service/services/subscription.service';
+import { StatusCode } from '../../../router/models/status-codes.model';
+import { SubscriptionsService } from '../../service/subscription.service';
 import { SubscriptionsRepository } from '../../data-access/repositories/subscriprion.repository';
 
 export async function subscribe(request: Request, response: Response) {
-  const subscriptionRepository = new SubscriptionsService(new SubscriptionsRepository());
+  const subscriptionService = new SubscriptionsService(new SubscriptionsRepository());
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(StatusCode.BadRequest).json(errors.array());
   }
 
   const email = request.body.email as string;
-  const subscribed = await subscriptionRepository.findByEmail(email);
+  const subscribed = await subscriptionService.findByEmail(email);
   if (subscribed) {
     return response.status(StatusCode.ExistingValue).json('Email is already subscribed');
   }
-  await subscriptionRepository.create(email);
+  await subscriptionService.create(email);
   return response.status(StatusCode.Success).json(`Email ${email} added to subscription`);
 }
