@@ -7,7 +7,7 @@ import { SchedulerService } from './common/services/scheduler.service';
 import * as bodyParser from 'body-parser';
 import { subscriptionRouter } from './router/routers/subscription.router';
 import { exchangerRouter } from './router/routers/exchanger.router';
-import { sendDailyRateEmail } from './subscription/service/jobs/rates-notification.job';
+import { sendDailyRateEmail } from './subscription/jobs/rates-notification.job';
 import logger from './common/services/logger.service';
 
 export const app = express();
