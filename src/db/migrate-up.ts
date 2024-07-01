@@ -1,7 +1,7 @@
 import { exit } from 'process';
 import { config } from '../config';
 import migrate from 'node-pg-migrate';
-import logger from '../services/logger.service';
+import logger from '../common/services/logger.service';
 
 const databaseConfig = config.db;
 

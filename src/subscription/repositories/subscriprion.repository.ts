@@ -1,7 +1,7 @@
-import Subscription from '../db/models/subscription.model';
 import { v4 as uuidv4 } from 'uuid';
 import { SubscriptionRepository } from '../services/subscription.service';
 import { Op } from 'sequelize';
+import Subscription from '../../db/models/subscription.model';
 
 export class SubscriptionsRepository implements SubscriptionRepository {
   public async create(email: string): Promise<Subscription> {

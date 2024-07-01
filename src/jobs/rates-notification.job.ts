@@ -1,13 +1,13 @@
 import { config } from '../config';
-import { SubscriptionsRepository } from '../repositories/subscriprion.repository';
-import { BanksExchangeHandler } from '../services/bank-exchange-handler';
-import { EmailService } from '../services/email.service';
-import { ExchangerService } from '../services/exchanger.service';
-import { MonobankClient } from '../services/exchangers/monobank-client';
-import { NBUClient } from '../services/exchangers/nbu-client';
-import { Privat24Client } from '../services/exchangers/privat24-client';
-import logger from '../services/logger.service';
-import { SubscriptionsService } from '../services/subscription.service';
+import { BanksExchangeHandler } from '../rate/services/bank-exchange-handler';
+import { EmailService } from '../common/services/email.service';
+import logger from '../common/services/logger.service';
+import { SubscriptionsService } from '../subscription/services/subscription.service';
+import { ExchangerService } from '../rate/services/exchanger.service';
+import { Privat24Client } from '../rate/services/exchangers/privat24-client';
+import { NBUClient } from '../rate/services/exchangers/nbu-client';
+import { MonobankClient } from '../rate/services/exchangers/monobank-client';
+import { SubscriptionsRepository } from '../subscription/repositories/subscriprion.repository';
 
 export async function sendDailyRateEmail() {
   try {

@@ -1,4 +1,4 @@
-import Subscription from '../db/models/subscription.model';
+import Subscription from '../../db/models/subscription.model';
 
 export interface SubscriptionRepository {
   create(email: string): Promise<Subscription>;

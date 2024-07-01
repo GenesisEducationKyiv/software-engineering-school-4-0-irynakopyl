@@ -1,7 +1,7 @@
 import request from 'supertest';
 import * as sinon from 'sinon';
-import { StatusCode } from '../../models/status-codes.model';
-import { Privat24Client } from '../../services/exchangers/privat24-client';
+import { StatusCode } from '../../common/models/status-codes.model';
+import { Privat24Client } from '../../common/services/exchangers/privat24-client';
 import { app } from '../../app';
 
 describe('Exchanger router', () => {

@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
-import { EmailService } from '../../services/email.service';
-import { CurrencyRateEmailPayload, EmailPayload } from '../../models/email-payload';
+import { EmailService } from '../../common/services/email.service';
+import { CurrencyRateEmailPayload, EmailPayload } from '../../common/models/email-payload';
 import { config } from '../../config';
 
 describe('EmailService', () => {

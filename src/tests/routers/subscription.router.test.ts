@@ -1,7 +1,7 @@
 import request from 'supertest';
 import * as sinon from 'sinon';
 import Subscription from '../../db/models/subscription.model';
-import { StatusCode } from '../../models/status-codes.model';
+import { StatusCode } from '../../common/models/status-codes.model';
 import { app } from '../../app';
 
 describe('Subscription router', () => {

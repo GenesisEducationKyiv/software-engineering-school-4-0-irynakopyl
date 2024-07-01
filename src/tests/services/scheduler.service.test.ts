@@ -1,4 +1,4 @@
-import { SchedulerService } from '../../services/scheduler.service';
+import { SchedulerService } from '../../common/services/scheduler.service';
 import scheduler from 'node-schedule';
 
 describe('SchedulerService', () => {

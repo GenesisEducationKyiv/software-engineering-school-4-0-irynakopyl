@@ -1,5 +1,5 @@
-import { ExchangerService } from '../../services/exchanger.service';
 import sinon from 'sinon';
+import { ExchangerService } from '../../rate/services/exchanger.service';
 
 describe('ExchangerService', () => {
   const exchangeClientMock = { getCurrencyRate: sinon.stub() };
