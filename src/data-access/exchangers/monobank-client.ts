@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { config } from '../../config';
-import { ExchangeClient } from '../exchanger.service';
-import { ISO4217CurrencyCodes } from '../../models/currency';
-import logger from '../logger.service';
+import { ExchangeClient } from '../../service/services/exchanger.service';
+import { ISO4217CurrencyCodes } from '../../service/models/currency';
+import logger from '../../service/services/logger.service';
 
 export class MonobankClient implements ExchangeClient {
   private axiosInstance;

@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { config } from '../config';
+import { config } from '../../config';
 import { CurrencyRateEmailPayload, EmailPayload } from '../models/email-payload';
 import logger from './logger.service';
 
