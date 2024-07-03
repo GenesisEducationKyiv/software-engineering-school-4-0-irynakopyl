@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ExchangerService } from '../../service/exchanger.service';
-import { StatusCode } from '../../../router/models/status-codes.model';
+import { StatusCode } from '../../../common/models/status-codes.model';
 import { MonobankClient } from '../../data-access/exchangers/monobank-client';
 import { NBUClient } from '../../data-access/exchangers/nbu-client';
 import { Privat24Client } from '../../data-access/exchangers/privat24-client';

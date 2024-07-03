@@ -5,8 +5,8 @@ import { exit } from 'process';
 import { DatabaseService } from './common/services/database.service';
 import { SchedulerService } from './common/services/scheduler.service';
 import * as bodyParser from 'body-parser';
-import { subscriptionRouter } from './router/routers/subscription.router';
-import { exchangerRouter } from './router/routers/exchanger.router';
+import { subscriptionRouter } from './subscription/presentation/routers/subscription.router';
+import { exchangerRouter } from './rate/presentation/routers/exchanger.router';
 import { sendDailyRateEmail } from './subscription/jobs/rates-notification.job';
 import logger from './common/services/logger.service';
 

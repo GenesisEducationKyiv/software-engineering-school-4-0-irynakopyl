@@ -1,6 +1,6 @@
 import request from 'supertest';
 import * as sinon from 'sinon';
-import { StatusCode } from '../../router/models/status-codes.model';
+import { StatusCode } from '../../common/models/status-codes.model';
 import { Privat24Client } from '../../rate/data-access/exchangers/privat24-client';
 import { app } from '../../app';
 

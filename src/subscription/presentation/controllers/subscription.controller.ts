@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import { StatusCode } from '../../../router/models/status-codes.model';
+import { StatusCode } from '../../../common/models/status-codes.model';
 import { SubscriptionsService } from '../../service/services/subscription.service';
 import { SubscriptionsRepository } from '../../data-access/repositories/subscription.repository';
 
