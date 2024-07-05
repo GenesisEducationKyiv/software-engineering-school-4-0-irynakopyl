@@ -1,6 +1,6 @@
 import express from 'express';
 import { config } from './config';
-import { connectToDatabase } from './subscription/data-access/db/models/db';
+import { connectToDatabase } from './common/db/models/db';
 import { exit } from 'process';
 import { DatabaseService } from './common/services/database.service';
 import { SchedulerService } from './common/services/scheduler.service';
@@ -9,6 +9,9 @@ import { subscriptionRouter } from './subscription/presentation/routers/subscrip
 import { exchangerRouter } from './rate/presentation/routers/exchanger.router';
 import { sendDailyRateEmail } from './subscription/jobs/rates-notification.job';
 import logger from './common/services/logger.service';
+import { setupEventConsumer } from './common/services/messaging/event-consumer';
+import { setupEmailService } from './common/services/email.service';
+import { bootstrapKafka } from './common/services/messaging/kafka.service';
 
 export const app = express();
 
@@ -21,6 +24,10 @@ app.use('/rate', exchangerRouter);
 export async function initApp() {
   const databaseService = new DatabaseService();
   try {
+    await bootstrapKafka();
+    const messageConsumer = await setupEventConsumer();
+    await setupEmailService(messageConsumer);
+
     await connectToDatabase(config.db);
     await databaseService.authenticate();
     SchedulerService.initializeJob(config.cron.currencyRateEmailSchedule, sendDailyRateEmail);
