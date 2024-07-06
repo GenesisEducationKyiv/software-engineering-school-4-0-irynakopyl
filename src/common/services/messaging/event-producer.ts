@@ -5,7 +5,6 @@ import { SystemEvent } from '../../models/system-event.model';
 
 export interface EventProducer {
   sendEvent(queueName: string, event: SystemEvent): Promise<void>;
-  shutdown(): Promise<void>;
 }
 
 export const setupEventProducer = async (): Promise<EventProducer> => {
@@ -33,10 +32,6 @@ export class KafkaProducer implements EventProducer {
       topic: queueName,
       messages: [{ value: message }],
     });
-  }
-
-  async shutdown(): Promise<void> {
-    logger.info('Shutting down Kafka producer...');
     await this.producer.disconnect();
   }
 }

@@ -3,7 +3,7 @@ import { config } from '../../config';
 import { CurrencyRateEmailPayload, EmailPayload } from '../models/email-payload';
 import logger from './logger.service';
 import { EventConsumer } from './messaging/event-consumer';
-import { SystemEvent } from '../models/system-event.model';
+import { SystemEvent, SystemEventType } from '../models/system-event.model';
 
 export async function setupEmailService(messageConsumer: EventConsumer): Promise<EmailService> {
   const emailService = new EmailService(messageConsumer);
@@ -50,14 +50,14 @@ export class EmailService {
   }
 
   private async systemEventHandler(event: any): Promise<void> {
-    if (!event.message?.value) {
+    if (!event?.message?.value) {
       console.error('Empty message from Message Broker');
       return;
     }
     const eventPayload = JSON.parse(event.message.value.toString()) as SystemEvent;
     console.log('Received event:', eventPayload);
     switch (eventPayload.eventType) {
-      case 'email.currency-rate-daily':
+      case SystemEventType.CurrencyRateEmail:
         await this.sendCurrencyRateEmail(eventPayload.data as CurrencyRateEmailPayload);
         break;
       default:

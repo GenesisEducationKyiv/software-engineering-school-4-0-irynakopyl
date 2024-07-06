@@ -9,9 +9,9 @@ import { subscriptionRouter } from './subscription/presentation/routers/subscrip
 import { exchangerRouter } from './rate/presentation/routers/exchanger.router';
 import { sendDailyRateEmail } from './subscription/jobs/rates-notification.job';
 import logger from './common/services/logger.service';
-import { setupEventConsumer } from './common/services/messaging/event-consumer';
 import { setupEmailService } from './common/services/email.service';
 import { bootstrapKafka } from './common/services/messaging/kafka.service';
+import { setupEventConsumer } from './common/services/messaging/event-consumer';
 
 export const app = express();
 

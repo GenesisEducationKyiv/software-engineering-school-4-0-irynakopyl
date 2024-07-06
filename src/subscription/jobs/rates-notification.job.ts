@@ -9,6 +9,7 @@ import { SubscriptionsService } from '../service/services/subscription.service';
 import { BanksExchangeHandler } from '../../rate/service/bank-exchange-handler';
 import { setupEventProducer } from '../../common/services/messaging/event-producer';
 import { v4 as uuidv4 } from 'uuid';
+import { SystemEventType } from '../../common/models/system-event.model';
 
 export async function sendDailyRateEmail() {
   try {
@@ -30,7 +31,7 @@ export async function sendDailyRateEmail() {
       const sendEmailPromises = subcriptions.map((subscription) => {
         return messageProducer.sendEvent(config.messageBroker.topics.email, {
           eventId: uuidv4(),
-          eventType: 'email.currency-rate-daily',
+          eventType: SystemEventType.CurrencyRateEmail,
           timestamp: new Date(),
           data: { to: subscription.email, currencyRate: currentRate },
         });
