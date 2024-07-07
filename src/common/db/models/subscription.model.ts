@@ -14,4 +14,8 @@ export default class Subscriptions extends Model<Subscriptions> {
   @AllowNull(false)
   @Column({ field: 'created_at' })
   createdAt: Date;
+
+  @AllowNull(true)
+  @Column({ field: 'deleted_at' })
+  deletedAt: Date;
 }

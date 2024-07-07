@@ -7,11 +7,11 @@ import { SchedulerService } from './common/services/scheduler.service';
 import * as bodyParser from 'body-parser';
 import { subscriptionRouter } from './subscription/presentation/routers/subscription.router';
 import { exchangerRouter } from './rate/presentation/routers/exchanger.router';
-import { sendDailyRateEmail } from './subscription/jobs/rates-notification.job';
 import logger from './common/services/logger.service';
-import { setupEmailService } from './common/services/email.service';
+import { setupEmailService } from './notification/services/email.service';
 import { bootstrapKafka } from './common/services/messaging/kafka.service';
 import { setupEventConsumer } from './common/services/messaging/event-consumer';
+import { setupRateFetcher } from './rate/presentation/functions/rate-fetcher';
 
 export const app = express();
 
@@ -26,11 +26,10 @@ export async function initApp() {
   try {
     await bootstrapKafka();
     const messageConsumer = await setupEventConsumer();
+    await setupRateFetcher();
     await setupEmailService(messageConsumer);
-
     await connectToDatabase(config.db);
     await databaseService.authenticate();
-    SchedulerService.initializeJob(config.cron.currencyRateEmailSchedule, sendDailyRateEmail);
   } catch (error) {
     logger.error(`Error received while initializing application:  ${JSON.stringify(error)}`);
     await SchedulerService.shutdown();
