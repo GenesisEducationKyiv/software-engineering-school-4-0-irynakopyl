@@ -17,7 +17,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
       default: pgm.func('current_timestamp'),
     },
     currency: {
-      type: 'number',
+      type: 'integer',
       notNull: true,
     },
     value: {
