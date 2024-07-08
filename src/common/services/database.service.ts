@@ -1,4 +1,4 @@
-import { sequelize } from '../../data-access/db/models/db';
+import { sequelize } from '../../subscription/data-access/db/models/db';
 import logger from './logger.service';
 
 export class DatabaseService {

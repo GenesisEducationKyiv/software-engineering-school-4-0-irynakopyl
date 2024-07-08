@@ -1,4 +1,4 @@
-import Subscription from '../../data-access/db/models/subscription.model';
+import { Subscription } from '../models/subscription';
 
 export interface SubscriptionRepository {
   create(email: string): Promise<Subscription>;

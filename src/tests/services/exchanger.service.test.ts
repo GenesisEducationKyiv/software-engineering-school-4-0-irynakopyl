@@ -1,4 +1,4 @@
-import { ExchangerService } from '../../service/services/exchanger.service';
+import { ExchangerService } from '../../rate/service/exchanger.service';
 import sinon from 'sinon';
 
 describe('ExchangerService', () => {

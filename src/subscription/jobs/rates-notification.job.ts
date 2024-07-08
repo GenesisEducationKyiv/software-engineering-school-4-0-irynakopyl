@@ -1,13 +1,13 @@
 import { config } from '../../config';
-import { SubscriptionsRepository } from '../../data-access/repositories/subscriprion.repository';
-import { BanksExchangeHandler } from '../services/bank-exchange-handler';
-import { EmailService } from '../services/email.service';
-import { ExchangerService } from '../services/exchanger.service';
-import { MonobankClient } from '../../data-access/exchangers/monobank-client';
-import { NBUClient } from '../../data-access/exchangers/nbu-client';
-import { Privat24Client } from '../../data-access/exchangers/privat24-client';
-import logger from '../services/logger.service';
-import { SubscriptionsService } from '../services/subscription.service';
+import { SubscriptionsRepository } from '../data-access/repositories/subscription.repository';
+import { EmailService } from '../../common/services/email.service';
+import { ExchangerService } from '../../rate/service/exchanger.service';
+import { MonobankClient } from '../../rate/data-access/exchangers/monobank-client';
+import { NBUClient } from '../../rate/data-access/exchangers/nbu-client';
+import { Privat24Client } from '../../rate/data-access/exchangers/privat24-client';
+import logger from '../../common/services/logger.service';
+import { SubscriptionsService } from '../service/services/subscription.service';
+import { BanksExchangeHandler } from '../../rate/service/bank-exchange-handler';
 
 export async function sendDailyRateEmail() {
   try {

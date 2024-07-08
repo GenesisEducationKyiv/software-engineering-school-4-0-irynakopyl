@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
-import { MonobankClient } from '../../data-access/exchangers/monobank-client';
+import { MonobankClient } from '../../rate/data-access/exchangers/monobank-client';
 import sinon from 'sinon';
-import { ISO4217CurrencyCodes } from '../../service/models/currency';
+import { ISO4217CurrencyCodes } from '../../rate/service/models/currency';
 
 describe('MonobankClient', () => {
   let axiosCreateStub: sinon.SinonStub;
