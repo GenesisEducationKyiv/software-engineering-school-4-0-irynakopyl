@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCode } from '../../../common/models/status-codes.model';
-import { SubscriptionsService } from '../../service/services/subscription.service';
-import { SubscriptionsRepository } from '../../data-access/repositories/subscription.repository';
+import { serviceLocator } from '../../../common/service-locator';
 
 export async function subscribe(request: Request, response: Response) {
-  const subscriptionService = new SubscriptionsService(new SubscriptionsRepository());
+  const subscriptionService = serviceLocator().subscriptionService();
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(StatusCode.BadRequest).json(errors.array());
