@@ -8,9 +8,8 @@ import { subscriptionRouter } from './subscription/presentation/routers/subscrip
 import { exchangerRouter } from './rate/presentation/routers/exchanger.router';
 import { sendDailyRateEmail } from './subscription/jobs/rates-notification.job';
 import logger from './common/services/logger.service';
-import { setupEmailService } from './common/services/email.service';
 import { bootstrapKafka } from './common/services/messaging/kafka.service';
-import { setupEventConsumer } from './common/services/messaging/event-consumer';
+import { serviceLocator } from './common/service-locator';
 
 export const app = express();
 
@@ -24,9 +23,7 @@ export async function initApp() {
   const databaseService = new DatabaseService(config.db);
   try {
     await bootstrapKafka();
-    const messageConsumer = await setupEventConsumer();
-    await setupEmailService(messageConsumer);
-
+    await serviceLocator().emailService();
     await databaseService.authenticate();
     SchedulerService.initializeJob(config.cron.currencyRateEmailSchedule, sendDailyRateEmail);
   } catch (error) {
