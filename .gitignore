@@ -2,4 +2,5 @@ dist/
 node_modules/
 .env
 .vscode
-postgres-data/
+notification-postgres-data/
+server-postgres-data/
