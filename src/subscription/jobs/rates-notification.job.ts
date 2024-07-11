@@ -1,23 +1,16 @@
 import { config } from '../../config';
-import { SubscriptionsRepository } from '../data-access/repositories/subscription.repository';
-import { EmailService } from '../../common/services/email.service';
 import { ExchangerService } from '../../rate/service/exchanger.service';
-import { MonobankClient } from '../../rate/data-access/exchangers/monobank-client';
-import { NBUClient } from '../../rate/data-access/exchangers/nbu-client';
-import { Privat24Client } from '../../rate/data-access/exchangers/privat24-client';
 import logger from '../../common/services/logger.service';
-import { SubscriptionsService } from '../service/services/subscription.service';
-import { BanksExchangeHandler } from '../../rate/service/bank-exchange-handler';
+import { setupEventProducer } from '../../common/services/messaging/event-producer';
+import { SystemEventType } from '../../common/models/system-event.model';
+import { serviceLocator } from '../../common/service-locator';
 
 export async function sendDailyRateEmail() {
   try {
-    const subscriptionService = new SubscriptionsService(new SubscriptionsRepository());
-    const emailService = new EmailService();
-    const monobankHandler = new BanksExchangeHandler(new MonobankClient());
-    const nbuHandler = new BanksExchangeHandler(new NBUClient());
-    const privat24Handler = new BanksExchangeHandler(new Privat24Client());
-    const bankExchangeHandler = monobankHandler.setNext(nbuHandler).setNext(privat24Handler);
+    const subscriptionService = serviceLocator().subscriptionService();
+    const bankExchangeHandler = serviceLocator().banksExchangeHandler();
     const requestsLimit = config.api.emailServer.rateLimit;
+    const messageProducer = await setupEventProducer();
 
     logger.info(`[Scheduled job] [${new Date()}] going to send emails to subsribed users`);
     const currentRate = await new ExchangerService(bankExchangeHandler).getCurrentRate();
@@ -26,7 +19,10 @@ export async function sendDailyRateEmail() {
     const failedToSendEmailErrors: string[] = [];
     while (hasMore) {
       const sendEmailPromises = subcriptions.map((subscription) => {
-        return emailService.sendCurrencyRateEmail({ to: subscription.email, currencyRate: currentRate });
+        return messageProducer.sendEvent(config.messageBroker.topics.email, {
+          eventType: SystemEventType.CurrencyRateEmail,
+          data: { to: subscription.email, currencyRate: currentRate },
+        });
       });
       const results = await Promise.allSettled(sendEmailPromises);
       const failedRequests = results.filter((result) => {
@@ -34,7 +30,7 @@ export async function sendDailyRateEmail() {
       });
       failedRequests.forEach((result) => {
         const error = ((result as PromiseRejectedResult) || undefined)?.reason;
-        failedToSendEmailErrors.push(`Error while sending email: ${error?.message}. Details: ${JSON.stringify(error)}`);
+        failedToSendEmailErrors.push(`Error while trying to send email message: ${error?.message}. Details: ${JSON.stringify(error)}`);
       });
 
       const createdAfter = subcriptions[subcriptions.length - 1].createdAt;

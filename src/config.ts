@@ -24,4 +24,11 @@ export const config = {
   cron: {
     currencyRateEmailSchedule: '0 0 * * *',
   },
+  messageBroker: {
+    broker: String(process.env.KAFKA_BROKER),
+    topics: {
+      email: 'email-events',
+    },
+    groupId: 'app-group',
+  },
 };

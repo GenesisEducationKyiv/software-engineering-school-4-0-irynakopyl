@@ -1,6 +1,6 @@
 import request from 'supertest';
 import * as sinon from 'sinon';
-import Subscription from '../../subscription/data-access/db/models/subscription.model';
+import Subscription from '../../common/db/models/subscription.model';
 import { StatusCode } from '../../common/models/status-codes.model';
 import { app } from '../../app';
 
