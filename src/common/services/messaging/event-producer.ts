@@ -1,10 +1,11 @@
 import { Kafka, Producer } from 'kafkajs';
 import logger from '../logger.service';
 import { bootstrapKafka } from './kafka.service';
-import { SystemEvent } from '../../models/system-event.model';
+import { SystemEvent, SystemEventType } from '../../models/system-event.model';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface EventProducer {
-  sendEvent(queueName: string, event: SystemEvent): Promise<void>;
+  sendEvent(queueName: string, params: any): Promise<void>;
 }
 
 export const setupEventProducer = async (): Promise<EventProducer> => {
@@ -25,7 +26,12 @@ export class KafkaProducer implements EventProducer {
     await this.producer.connect();
   }
 
-  async sendEvent(queueName: string, event: SystemEvent): Promise<void> {
+  async sendEvent(queueName: string, params: { data: any; eventType: SystemEventType }): Promise<void> {
+    const event: SystemEvent = {
+      ...params,
+      timestamp: new Date(),
+      eventId: uuidv4(),
+    };
     const message = JSON.stringify(event);
     logger.info(`Sending message to ${queueName}: ${message}`);
     await this.producer.send({

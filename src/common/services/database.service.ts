@@ -1,10 +1,20 @@
-import { sequelize } from '../db/models/db';
 import logger from './logger.service';
+import { Sequelize } from 'sequelize-typescript';
+import Subscriptions from '../db/models/subscription.model';
 
 export class DatabaseService {
+  private sequelize: Sequelize;
+  constructor(config: { host: string; port: number; database: string; username: string; password: string }) {
+    this.sequelize = new Sequelize({
+      dialect: 'postgres',
+      ...config,
+    });
+    this.sequelize.addModels([Subscriptions]);
+  }
+
   public async authenticate(): Promise<void> {
     try {
-      await sequelize.authenticate();
+      await this.sequelize.authenticate();
       logger.info(`Connection has been established successfully.`);
     } catch (error) {
       logger.error(`Unable to connect to the database: ${JSON.stringify(error)}`);
@@ -13,12 +23,12 @@ export class DatabaseService {
   }
 
   public async closeConnection(): Promise<void> {
-    if (!sequelize) {
+    if (!this.sequelize) {
       logger.info('Connection was not established, nothing to close.');
       return;
     }
     try {
-      await sequelize.close();
+      await this.sequelize.close();
       logger.info('Connection has been closed successfully.');
     } catch (error) {
       logger.error(`Unable to connect to the database: ${JSON.stringify(error)}`);
