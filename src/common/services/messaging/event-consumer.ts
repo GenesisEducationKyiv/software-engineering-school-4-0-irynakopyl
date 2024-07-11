@@ -1,17 +1,10 @@
 import { Consumer, EachMessageHandler, Kafka } from 'kafkajs';
 import { config } from '../../../config';
-import { bootstrapKafka } from './kafka.service';
 
 export interface EventConsumer {
   addEventHandler(queueName: string, handler: (payload: any) => Promise<void>): Promise<void>;
   disconnect(): Promise<void>;
 }
-
-export const setupEventConsumer = async (): Promise<EventConsumer> => {
-  const kafkaProducer = new KafkaConsumer(await bootstrapKafka());
-  await kafkaProducer.connect();
-  return kafkaProducer;
-};
 
 export class KafkaConsumer implements EventConsumer {
   private kafka: Kafka;

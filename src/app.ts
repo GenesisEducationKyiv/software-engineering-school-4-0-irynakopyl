@@ -7,7 +7,6 @@ import * as bodyParser from 'body-parser';
 import { subscriptionRouter } from './subscription/presentation/routers/subscription.router';
 import { exchangerRouter } from './rate/presentation/routers/exchanger.router';
 import logger from './common/services/logger.service';
-import { bootstrapKafka } from './common/services/messaging/kafka.service';
 import { serviceLocator } from './common/service-locator';
 
 export const app = express();
@@ -21,10 +20,8 @@ app.use('/rate', exchangerRouter);
 export async function initApp() {
   const databaseService = new DatabaseService(config.db);
   try {
-    await bootstrapKafka();
     await serviceLocator().emailService();
-    const messageConsumer = await setupEventConsumer();
-    await setupRateFetcher();
+    await serviceLocator().rateFetcher();
     await databaseService.authenticate();
   } catch (error) {
     logger.error(`Error received while initializing application:  ${JSON.stringify(error)}`);

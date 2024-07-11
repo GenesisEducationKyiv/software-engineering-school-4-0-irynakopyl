@@ -11,16 +11,13 @@ import { SubscriptionsRepository } from '../../subscription/data-access/reposito
 import { SubscriptionsService } from '../../subscription/service/services/subscription.service';
 import { RateService } from './rate.service';
 
-export async function setupEmailService(messageConsumer: EventConsumer): Promise<EmailService> {
-  const emailService = new EmailService(messageConsumer);
-  await emailService.start();
-  return emailService;
-}
-
 export class EmailService {
   private emailSender;
 
-  constructor(private eventConsumer: EventConsumer) {
+  constructor(
+    private eventConsumer: EventConsumer,
+    private rateService: RateService,
+  ) {
     this.emailSender = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
@@ -41,8 +38,7 @@ export class EmailService {
 
   public async sendCurrencyRateEmail(): Promise<void> {
     try {
-      const rateRepository = new RateService(new RatesRepository());
-      const currentRate = await rateRepository.getLatest(Currency.USD);
+      const currentRate = await this.rateService.getLatest(Currency.USD);
       if (!currentRate) {
         logger.error('No currency rate data found');
         throw new Error('No currency rate data found');

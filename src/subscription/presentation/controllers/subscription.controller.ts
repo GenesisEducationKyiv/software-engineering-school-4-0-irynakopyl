@@ -20,7 +20,7 @@ export async function subscribe(request: Request, response: Response) {
 }
 
 export async function unsubscribe(request: Request, response: Response) {
-  const subscriptionService = new SubscriptionsService(new SubscriptionsRepository());
+  const subscriptionService = serviceLocator().subscriptionService();
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(StatusCode.BadRequest).json(errors.array());
