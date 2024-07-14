@@ -4,3 +4,4 @@ node_modules/
 .vscode
 notification-postgres-data/
 server-postgres-data/
+postgres-data/

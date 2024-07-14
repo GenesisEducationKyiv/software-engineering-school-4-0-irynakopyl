@@ -25,31 +25,31 @@ services:
     depends_on:
       - serverpg
       - kafka
-  # notificationpg:
-  #   image: postgres:16.1
-  #   container_name: notificationpg
-  #   build:
-  #     context: ./notification
-  #   env_file:
-  #     - ./notification/.env
-  #   environment:
-  #     - POSTGRES_DB=${NOTIFICATION_DB_NAME}
-  #     - POSTGRES_USER=${DB_USER}
-  #     - POSTGRES_PASSWORD=${DB_PASSWORD}
-  #   ports: ['5433:5432']
-  #   volumes:
-  #     - ./notification-postgres-data:/var/lib/postgresql/ndata
-  # notification:
-  #   build: ./notification
-  #   container_name: notification
-  #   restart: always
-  #   env_file:
-  #     - ./notification/.env
-  #   ports:
-  #     - 3001:3000
-  #   depends_on:
-  #     - notificationpg
-  #     - kafka
+  notificationpg:
+    image: postgres:16.1
+    container_name: notificationpg
+    build:
+      context: ./notification
+    env_file:
+      - ./notification/.env
+    environment:
+      - POSTGRES_DB=${NOTIFICATION_DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports: ['5433:5432']
+    volumes:
+      - ./notification-postgres-data:/var/lib/postgresql/ndata
+  notification:
+    build: ./notification
+    container_name: notification
+    restart: always
+    env_file:
+      - ./notification/.env
+    ports:
+      - 3001:3000
+    depends_on:
+      - notificationpg
+      - kafka
   zookeeper:
     image: 'wurstmeister/zookeeper:latest'
     ports:
