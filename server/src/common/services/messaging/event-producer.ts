@@ -1,6 +1,5 @@
 import { Kafka, Producer } from 'kafkajs';
 import logger from '../logger.service';
-import { bootstrapKafka } from './kafka.service';
 import { SystemEvent } from '../../models/system-event.model';
 
 export interface EventProducer {
@@ -8,16 +7,12 @@ export interface EventProducer {
   connect(): Promise<void>;
 }
 
-export const setupEventProducer = async (): Promise<EventProducer> => {
-  logger.info('Setting up Kafka producer...');
-  const kafkaProducer = new KafkaProducer();
-  await kafkaProducer.connect();
-  return kafkaProducer;
-};
 export class KafkaProducer implements EventProducer {
   private readonly producer: Producer;
 
-  constructor() {}
+  constructor(private kafka: Kafka) {
+    this.producer = this.kafka.producer();
+  }
 
   async connect(): Promise<void> {
     logger.info('Connecting to Kafka producer...');
@@ -27,8 +22,7 @@ export class KafkaProducer implements EventProducer {
   async sendEvent(queueName: string, event: SystemEvent): Promise<void> {
     logger.info(`Sending system event to ${queueName}: ${JSON.stringify(event)}`);
     try {
-      const kafka = await bootstrapKafka();
-      await kafka.producer().connect();
+      await this.kafka.producer().connect();
       const message = JSON.stringify(event);
       logger.info(`Sending message to ${queueName}: ${message}`);
       await this.producer.send({

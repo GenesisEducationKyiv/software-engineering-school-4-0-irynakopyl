@@ -8,7 +8,7 @@ export class EmailService {
 
   constructor() {
     this.emailSender = nodemailer.createTransport({
-      service: 'Gmail',
+      host: config.api.emailServer.host,
       auth: {
         user: config.api.emailServer.user,
         pass: config.api.emailServer.password,

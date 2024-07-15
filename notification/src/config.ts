@@ -14,6 +14,8 @@ export const config = {
       user: String(process.env.AUTH_EMAIL),
       password: String(process.env.AUTH_PASSWORD),
       rateLimit: 100,
+      host: String(process.env.EMAIL_HOST),
+      port: String(process.env.EMAIL_PORT),
     },
   },
   cron: {

@@ -1,7 +1,6 @@
 import { SystemEvent, SystemEventType } from '../../../common/models/system-event.model';
-import { RatesRepository } from '../../data-access/repositories/rate.repository';
+import { serviceLocator } from '../../../common/service-locator';
 import { Currency } from '../models/currency';
-import { RateService } from './rate.service';
 
 export async function handleEvent(event: any): Promise<void> {
   console.log('Received event', JSON.stringify(event));
@@ -22,6 +21,6 @@ export async function handleEvent(event: any): Promise<void> {
 }
 
 async function processCurrencyUpdated(data: { currencyRate: number }): Promise<void> {
-  const rateRepository = new RateService(new RatesRepository());
+  const rateRepository = serviceLocator().ratesService();
   await rateRepository.create(data.currencyRate, Currency.USD);
 }

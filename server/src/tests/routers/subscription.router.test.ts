@@ -11,7 +11,9 @@ describe('Subscription router', () => {
   const userEmail = 'existing@user.com';
   let subscriptionFindStub: sinon.SinonStub;
   let subscriptionCreateStub: sinon.SinonStub;
-  let eventProducerStub: sinon.SinonStub;
+  let eventProducerSendStub: sinon.SinonStub;
+  let eventProducerConnectStub: sinon.SinonStub;
+
   let subscriptionUpdateStub: sinon.SinonStub;
   let kafkaStub;
   let kafkaStubbed: sinon.SinonStubbedInstance<Kafka>;
@@ -20,12 +22,14 @@ describe('Subscription router', () => {
     subscriptionFindStub = sinon.stub(Subscription, 'findOne');
     subscriptionCreateStub = sinon.stub(Subscription, 'create');
     subscriptionUpdateStub = sinon.stub(Subscription, 'update');
-    eventProducerStub = sinon.stub(KafkaProducer.prototype, 'sendEvent');
+    eventProducerSendStub = sinon.stub(KafkaProducer.prototype, 'sendEvent');
+    eventProducerConnectStub = sinon.stub(KafkaProducer.prototype, 'connect');
+
     kafkaStub = sinon.stub(kafkaService, 'bootstrapKafka');
     kafkaStubbed = sinon.createStubInstance(Kafka);
     kafkaStub.resolves(kafkaStubbed);
 
-    eventProducerStub.resolves();
+    eventProducerSendStub.resolves();
   });
 
   afterEach(sinon.restore);
@@ -43,7 +47,8 @@ describe('Subscription router', () => {
 
     const response = await request(app).post('/subscribe').send({ email: userEmail });
     expect(response.status).toBe(StatusCode.Success);
-    expect(eventProducerStub.calledOnce).toBe(true);
+    expect(eventProducerSendStub.calledOnce).toBe(true);
+    expect(eventProducerConnectStub.calledOnce).toBe(true);
   });
 
   it('should fail to process the request with invalid email', async () => {
@@ -57,7 +62,8 @@ describe('Subscription router', () => {
     const response = await request(app).delete(`/subscribe/${userEmail}`).send();
 
     expect(response.status).toBe(StatusCode.Success);
-    expect(eventProducerStub.calledOnce).toBe(true);
+    expect(eventProducerSendStub.calledOnce).toBe(true);
+    expect(eventProducerConnectStub.calledOnce).toBe(true);
     expect(subscriptionUpdateStub.calledOnce).toBe(true);
   });
 

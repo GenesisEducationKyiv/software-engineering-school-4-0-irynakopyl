@@ -1,6 +1,5 @@
 import { SystemEvent, SystemEventType } from '../../../common/models/system-event.model';
-import { SubscriptionsRepository } from '../../data-access/repositories/subscription.repository';
-import { SubscriptionsService } from './subscription.service';
+import { serviceLocator } from '../../../common/service-locator';
 
 export async function handleEvent(event: any): Promise<void> {
   console.log('Received event', JSON.stringify(event));
@@ -10,7 +9,7 @@ export async function handleEvent(event: any): Promise<void> {
   }
   const eventPayload = JSON.parse(event.message.value.toString()) as SystemEvent;
   console.log('Received event:', eventPayload);
-  const subscriptionService = new SubscriptionsService(new SubscriptionsRepository());
+  const subscriptionService = serviceLocator().subscriptionService();
 
   switch (eventPayload.eventType) {
     case SystemEventType.SubscriptionCreated:

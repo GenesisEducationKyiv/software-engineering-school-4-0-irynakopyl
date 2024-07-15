@@ -1,6 +1,5 @@
 import express from 'express';
 import { config } from './config';
-import { connectToDatabase } from './common/db/models/db';
 import { exit } from 'process';
 import { DatabaseService } from './common/services/database.service';
 import { SchedulerService } from './common/services/scheduler.service';
@@ -19,10 +18,9 @@ app.use('/subscribe', subscriptionRouter);
 app.use('/rate', exchangerRouter);
 
 export async function initApp() {
-  const databaseService = new DatabaseService();
+  const databaseService = new DatabaseService(config.db);
   try {
     await setupRateFetcher();
-    await connectToDatabase(config.db);
     await databaseService.authenticate();
   } catch (error) {
     logger.error(`Error received while initializing application:  ${JSON.stringify(error)}`);
