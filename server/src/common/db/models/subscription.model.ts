@@ -18,4 +18,8 @@ export default class Subscriptions extends Model<Subscriptions> {
   @AllowNull(true)
   @Column({ field: 'deleted_at' })
   deletedAt: Date;
+
+  @AllowNull(true)
+  @Column({ field: 'is_setup_done' })
+  isSetupDone: boolean;
 }

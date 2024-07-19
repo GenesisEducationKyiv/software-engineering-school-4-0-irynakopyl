@@ -1,4 +1,4 @@
-import { Consumer, EachMessageHandler, Kafka } from 'kafkajs';
+import { Consumer, Kafka } from 'kafkajs';
 import { config } from '../../../config';
 import { bootstrapKafka } from './kafka.service';
 
@@ -26,10 +26,21 @@ export class KafkaConsumer implements EventConsumer {
     await this.consumer.connect();
   }
 
-  async addEventHandler(queueName: string, handler: EachMessageHandler): Promise<void> {
-    await this.consumer.subscribe({ topic: queueName, fromBeginning: true });
+  async subscribe(topics: string[]): Promise<void> {
+    await this.consumer.subscribe({ topics: topics, fromBeginning: true });
+  }
+
+  async addEventHandler(handler: any): Promise<void> {
     await this.consumer.run({
-      eachMessage: handler,
+      eachMessage: async ({ topic, partition, message }) => {
+        console.log('Received message', {
+          topic,
+          partition,
+          key: message?.key?.toString(),
+          value: message?.value?.toString(),
+        });
+        await handler(message?.value?.toString(), topic);
+      },
     });
   }
 

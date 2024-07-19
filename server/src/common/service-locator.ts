@@ -5,6 +5,7 @@ import { BanksExchangeHandler } from '../rate/service/bank-exchange-handler';
 import { ExchangerService } from '../rate/service/exchanger.service';
 import { SubscriptionsRepository } from '../subscription/data-access/repositories/subscription.repository';
 import { SubscriptionsService } from '../subscription/service/services/subscription.service';
+import { KafkaConsumer } from './services/messaging/event-consumer';
 import { KafkaProducer } from './services/messaging/event-producer';
 import { bootstrapKafka } from './services/messaging/kafka.service';
 
@@ -26,6 +27,11 @@ export function serviceLocator() {
       const kafkaProducer = new KafkaProducer(await bootstrapKafka());
       await kafkaProducer.connect();
       return kafkaProducer;
+    },
+    eventConsumer: async () => {
+      const kafkaConsumer = new KafkaConsumer(await bootstrapKafka());
+      await kafkaConsumer.connect();
+      return kafkaConsumer;
     },
     rateFetcher: async () => {
       const eventProducer = await serviceLocator().eventProducer();

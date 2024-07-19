@@ -12,8 +12,9 @@ export async function bootstrapKafka() {
   await admin.connect();
   const res = await admin.createTopics({
     topics: [
-      { topic: config.messageBroker.topics.rate, numPartitions: 1, replicationFactor: 3 },
-      { topic: config.messageBroker.topics.subscription, numPartitions: 1, replicationFactor: 3 },
+      { topic: config.messageBroker.topics.rate },
+      { topic: config.messageBroker.topics.subscription },
+      { topic: config.messageBroker.topics.customersTransaction },
     ],
   });
   logger.info(res ? 'Created new topics' : 'Topics already exist');

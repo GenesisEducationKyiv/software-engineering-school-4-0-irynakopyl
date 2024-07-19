@@ -3,12 +3,12 @@ import logger from '../../../common/services/logger.service';
 import { EventProducer } from '../../../common/services/messaging/event-producer';
 import { config } from '../../../config';
 import { Subscription } from '../models/subscription';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface SubscriptionRepository {
   create(email: string): Promise<Subscription>;
   getAll(config?: { limit?: number; startingBefore?: Date }): Promise<Subscription[]>;
   findByEmail(email: string): Promise<Subscription | null>;
+  update(email: string, params: Pick<Subscription, 'isSetupDone'>): Promise<void>;
   delete(email: string): Promise<void>;
 }
 
@@ -24,12 +24,19 @@ export class SubscriptionsService {
     logger.info(`Subscription created for ${email}, sending event to queue`);
     await this.eventProducer.sendEvent(config.messageBroker.topics.subscription, {
       data: { email },
-      timestamp: new Date(),
-      eventId: uuidv4(),
+      eventType: SystemEventType.SubscriptionCreated,
+    });
+
+    await this.eventProducer.sendEvent(config.messageBroker.topics.notification, {
+      data: { email },
       eventType: SystemEventType.SubscriptionCreated,
     });
 
     return subscription;
+  }
+
+  public async update(email: string, params: Pick<Subscription, 'isSetupDone'>): Promise<void> {
+    await this.repository.update(email, params);
   }
 
   public async findByEmail(email: string): Promise<Subscription | null> {
@@ -44,8 +51,6 @@ export class SubscriptionsService {
     await this.repository.delete(email);
     await this.eventProducer.sendEvent(config.messageBroker.topics.subscription, {
       data: { email },
-      timestamp: new Date(),
-      eventId: uuidv4(),
       eventType: SystemEventType.SubscriptionDeleted,
     });
     return;

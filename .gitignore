@@ -5,3 +5,4 @@ node_modules/
 notification-postgres-data/
 server-postgres-data/
 postgres-data/
+customers-postgres-data/

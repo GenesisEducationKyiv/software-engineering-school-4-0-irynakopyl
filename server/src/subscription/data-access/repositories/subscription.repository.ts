@@ -9,8 +9,13 @@ export class SubscriptionsRepository implements SubscriptionRepository {
     return Subscriptions.create({ id: uuidv4(), createdAt: new Date(), email });
   }
 
-  public async findByEmail(email: string): Promise<Subscription | null> {
+  public async findByEmail(email: string) {
     return Subscriptions.findOne({ where: { email: email } });
+  }
+
+  public async update(email: string, params: Pick<Subscription, 'isSetupDone'>): Promise<void> {
+    const currentSubscription = await this.findByEmail(email);
+    await currentSubscription?.update(params);
   }
 
   public async getAll(config?: { limit: number; createdAfter: Date }): Promise<Subscription[]> {

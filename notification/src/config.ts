@@ -25,7 +25,7 @@ export const config = {
     broker: String(process.env.KAFKA_BROKER),
     topics: {
       rate: 'rate-events',
-      subscription: 'subscription-events',
+      notification: 'notification-events',
     },
     groupId: 'app-group',
   },

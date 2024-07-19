@@ -24,6 +24,9 @@ export const config = {
     topics: {
       rate: 'rate-events',
       subscription: 'subscription-events',
+      subscriptionTransaction: 'subscription-transactions-events',
+      customersTransaction: 'customers-transaction-events',
+      notification: 'notification-events',
     },
     groupId: 'app-group',
   },

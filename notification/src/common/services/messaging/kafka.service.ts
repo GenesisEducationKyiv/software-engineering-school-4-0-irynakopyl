@@ -11,7 +11,7 @@ export async function bootstrapKafka() {
   const admin = kafka.admin();
   await admin.connect();
   const res = await admin.createTopics({
-    topics: [{ topic: config.messageBroker.topics.rate }, { topic: config.messageBroker.topics.subscription }],
+    topics: [{ topic: config.messageBroker.topics.rate }, { topic: config.messageBroker.topics.notification }],
   });
   logger.info(res ? 'Created new topics' : 'Topics already exist');
   await admin.disconnect();

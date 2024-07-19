@@ -3,4 +3,5 @@ export interface Subscription {
   email: string;
   createdAt: Date;
   deletedAt?: Date;
+  isSetupDone: boolean;
 }

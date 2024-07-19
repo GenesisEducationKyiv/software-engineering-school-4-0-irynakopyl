@@ -1,9 +1,10 @@
 import { Kafka, Producer } from 'kafkajs';
 import logger from '../logger.service';
 import { SystemEvent } from '../../models/system-event.model';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface EventProducer {
-  sendEvent(queueName: string, event: SystemEvent): Promise<void>;
+  sendEvent(queueName: string, event: Pick<SystemEvent, 'data' | 'eventType'>): Promise<void>;
   connect(): Promise<void>;
 }
 
@@ -19,11 +20,15 @@ export class KafkaProducer implements EventProducer {
     await this.producer.connect();
   }
 
-  async sendEvent(queueName: string, event: SystemEvent): Promise<void> {
+  async sendEvent(queueName: string, event: Pick<SystemEvent, 'data' | 'eventType'>): Promise<void> {
     logger.info(`Sending system event to ${queueName}: ${JSON.stringify(event)}`);
     try {
-      await this.kafka.producer().connect();
-      const message = JSON.stringify(event);
+      const systemEvent = {
+        ...event,
+        eventId: uuidv4(),
+        timestamp: new Date().toISOString(),
+      };
+      const message = JSON.stringify(systemEvent);
       logger.info(`Sending message to ${queueName}: ${message}`);
       await this.producer.send({
         topic: queueName,

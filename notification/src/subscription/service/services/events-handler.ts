@@ -1,13 +1,14 @@
 import { SystemEvent, SystemEventType } from '../../../common/models/system-event.model';
 import { serviceLocator } from '../../../common/service-locator';
+import logger from '../../../common/services/logger.service';
 
 export async function handleEvent(event: any): Promise<void> {
-  console.log('Received event', JSON.stringify(event));
-  if (!event?.message?.value) {
-    console.error('Empty message from Message Broker');
+  logger.info(`Received event ${JSON.stringify(event)}`);
+  if (!event) {
+    logger.error('Empty message from Message Broker');
     return;
   }
-  const eventPayload = JSON.parse(event.message.value.toString()) as SystemEvent;
+  const eventPayload = JSON.parse(event) as SystemEvent;
   console.log('Received event:', eventPayload);
   const subscriptionService = serviceLocator().subscriptionService();
 

@@ -3,10 +3,6 @@ services:
   serverpg:
     image: postgres:16.1
     container_name: serverpg
-    build:
-      context: ./server
-    env_file:
-      - ./server/.env
     environment:
       - POSTGRES_DB=${SERVER_DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -15,7 +11,7 @@ services:
     volumes:
       - ./server-postgres-data:/var/lib/postgresql/data
   server:
-    build: ./server
+    image: server
     container_name: server
     restart: always
     env_file:
@@ -40,7 +36,7 @@ services:
     volumes:
       - ./notification-postgres-data:/var/lib/postgresql/ndata
   notification:
-    build: ./notification
+    image: notification
     container_name: notification
     restart: always
     env_file:
@@ -49,6 +45,41 @@ services:
       - 3001:3000
     depends_on:
       - notificationpg
+      - kafka
+  customers:
+    image: customers
+    container_name: customers
+    restart: always
+    env_file:
+      - ./customers/.env
+    ports:
+      - 3002:3000
+    depends_on:
+      - customerspg
+      - kafka
+  customerspg:
+    image: postgres:16.1
+    container_name: customerspg
+    env_file:
+      - ./customers/.env
+    environment:
+      - POSTGRES_DB=${CUSTOMERS_DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports: ['5434:5432']
+    volumes:
+      - ./customers-postgres-data:/var/lib/postgresql/data
+  orchestrator:
+    image: orchestrator
+    container_name: orchestrator
+    restart: always
+    env_file:
+      - ./orchestrator/.env
+    ports:
+      - 3005:3000
+    depends_on:
+      - server
+      # - customers
       - kafka
   zookeeper:
     image: 'wurstmeister/zookeeper:latest'
@@ -62,11 +93,11 @@ services:
     ports:
       - '9092:9092'
     environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_ADVERTISED_HOST_NAME=kafka
-      - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENERS=INTERNAL://0.0.0.0:9094,OUTSIDE://0.0.0.0:9092
+      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9094,OUTSIDE://kafka:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
     depends_on:
       - zookeeper

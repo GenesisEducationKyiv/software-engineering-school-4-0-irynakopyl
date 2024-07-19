@@ -9,4 +9,5 @@ export enum SystemEventType {
   CurrencyRateUpdated = 'currency-rate.updated',
   SubscriptionCreated = 'subscription.created',
   SubscriptionDeleted = 'subscription.deleted',
+  CustomerCreated = 'customer.created',
 }
