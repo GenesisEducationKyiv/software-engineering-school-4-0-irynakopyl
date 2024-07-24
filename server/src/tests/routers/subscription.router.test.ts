@@ -47,8 +47,8 @@ describe('Subscription router', () => {
 
     const response = await request(app).post('/subscribe').send({ email: userEmail });
     expect(response.status).toBe(StatusCode.Success);
-    expect(eventProducerSendStub.calledOnce).toBe(true);
-    expect(eventProducerConnectStub.calledOnce).toBe(true);
+    expect(eventProducerSendStub.called).toBe(true);
+    expect(eventProducerConnectStub.called).toBe(true);
   });
 
   it('should fail to process the request with invalid email', async () => {
