@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "tsc --build",
     "start": "ts-node src/index.ts",
-    "migrate": "node-pg-migrate -m src/db/migrations -j ts",
+    "migrate": "node-pg-migrate -m src/common/db/migrations -j ts",
     "migrate-up": "ts-node --transpileOnly ./src/common/db/migrate-up.ts",
     "migrate-down": "ts-node --transpileOnly ./src//common/db/migrate-down.ts",
     "format": "prettier --write .",
