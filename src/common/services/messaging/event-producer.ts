@@ -1,18 +1,11 @@
 import { Kafka, Producer } from 'kafkajs';
 import logger from '../logger.service';
-import { bootstrapKafka } from './kafka.service';
 import { SystemEvent, SystemEventType } from '../../models/system-event.model';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface EventProducer {
   sendEvent(queueName: string, params: any): Promise<void>;
 }
-
-export const setupEventProducer = async (): Promise<EventProducer> => {
-  const kafkaProducer = new KafkaProducer(await bootstrapKafka());
-  await kafkaProducer.connect();
-  return kafkaProducer;
-};
 
 export class KafkaProducer implements EventProducer {
   private readonly producer: Producer;

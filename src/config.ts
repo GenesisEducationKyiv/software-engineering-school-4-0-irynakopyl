@@ -23,11 +23,13 @@ export const config = {
   },
   cron: {
     currencyRateEmailSchedule: '0 0 * * *',
+    fetchRateSchedule: '0 8 * * *',
   },
   messageBroker: {
     broker: String(process.env.KAFKA_BROKER),
     topics: {
       email: 'email-events',
+      rate: 'rate-events',
     },
     groupId: 'app-group',
   },

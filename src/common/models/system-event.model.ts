@@ -6,5 +6,5 @@ export interface SystemEvent {
 }
 
 export enum SystemEventType {
-  CurrencyRateEmail = 'email.currency-rate-daily',
+  CurrencyRateUpdated = 'currency-rate.updated',
 }

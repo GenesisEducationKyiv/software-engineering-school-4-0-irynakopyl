@@ -39,4 +39,8 @@ export class SubscriptionsRepository implements SubscriptionRepository {
         : undefined),
     });
   }
+
+  public async delete(email: string): Promise<void> {
+    await Subscriptions.update({ deletedAt: new Date() }, { where: { email: email } });
+  }
 }

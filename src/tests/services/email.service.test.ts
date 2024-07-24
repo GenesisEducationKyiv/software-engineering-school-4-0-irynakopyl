@@ -1,28 +1,36 @@
 import * as sinon from 'sinon';
-import { EmailService } from '../../common/services/email.service';
-import { CurrencyRateEmailPayload, EmailPayload } from '../../common/models/email-payload';
+import { EmailService } from '../../notification/services/email.service';
+import { EmailPayload } from '../../common/models/email-payload';
 import { config } from '../../config';
 import { KafkaConsumer } from '../../common/services/messaging/event-consumer';
+import { RatesService } from '../../notification/services/rate.service';
+import { SubscriptionsService } from '../../subscription/service/services/subscription.service';
+import Rate from '../../common/db/models/rate.model';
+import { serviceLocator } from '../../common/service-locator';
 
 describe('EmailService', () => {
   let emailService: EmailService;
   let emailSenderStub: sinon.SinonStub;
+  let rateServiceStub: sinon.SinonStub;
+  let subscriptionServiceStub: sinon.SinonStub;
 
   beforeEach(() => {
-    emailService = new EmailService(sinon.createStubInstance(KafkaConsumer));
+    emailService = new EmailService(sinon.createStubInstance(KafkaConsumer), serviceLocator().ratesService());
+    rateServiceStub = sinon.stub(RatesService.prototype, 'getLatest');
     emailSenderStub = sinon.stub(emailService, 'sendEmail');
+    subscriptionServiceStub = sinon.stub(SubscriptionsService.prototype, 'getAll');
+    rateServiceStub.resolves({ value: 2 } as Rate);
+    subscriptionServiceStub.resolves();
+    subscriptionServiceStub.withArgs({ limit: 100 }).resolves([{ email: 'test@example.com' }]);
     config.api.emailServer.user = 'user@example.com';
   });
 
   afterEach(sinon.restore);
 
   it('should send a currency rate email', async () => {
-    const payload: CurrencyRateEmailPayload = {
-      currencyRate: 2,
-      to: 'test@example.com',
-    };
-    await emailService.sendCurrencyRateEmail(payload);
-    expect(emailSenderStub.calledOnce).toBe(true);
+    await emailService.sendCurrencyRateEmail();
+    expect(rateServiceStub.calledOnce).toBe(true);
+    expect(subscriptionServiceStub.called).toBe(true);
     expect(emailSenderStub.firstCall.args[0]).toEqual({
       from: 'user@example.com',
       subject: 'Currency Rate USD to UAH',
