@@ -6,7 +6,12 @@ export interface RateRepository {
   getLatest(currency: Currency): Promise<Rate | null>;
 }
 
-export class RateService {
+export interface RateService {
+  create(value: number, currency: Currency): Promise<Rate>;
+  getLatest(currency: Currency): Promise<Rate | null>;
+}
+
+export class RatesService {
   constructor(private repository: RateRepository) {}
   public async create(value: number, currency: Currency): Promise<Rate> {
     return this.repository.create(value, currency);
