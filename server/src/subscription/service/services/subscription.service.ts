@@ -21,7 +21,7 @@ export class SubscriptionsService {
   public async create(email: string): Promise<Subscription> {
     const subscription = await this.repository.create(email);
 
-    logger.info(`Subscription created for ${email}, sending event to queue`);
+    logger.debug(`Subscription created for ${email}, sending event to queue`);
     await this.eventProducer.sendEvent(config.messageBroker.topics.subscription, {
       data: { email },
       eventType: SystemEventType.SubscriptionCreated,

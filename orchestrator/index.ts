@@ -15,7 +15,7 @@ async function main() {
 
 app.listen(port, async () => {
   main().catch((error) => {
-    logger.info(error);
+    logger.error(error);
   });
   logger.info(`Running application on port ${port}`);
 });

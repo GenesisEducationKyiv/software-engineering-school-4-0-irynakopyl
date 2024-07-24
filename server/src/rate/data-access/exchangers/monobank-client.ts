@@ -12,7 +12,7 @@ export class MonobankClient implements ExchangeClient {
 
   public async getCurrencyRate(): Promise<number> {
     const ratesResponse = await this.axiosInstance.get('');
-    logger.info(`[Monobank API] Responded with status ${ratesResponse?.status} Data: ${JSON.stringify(ratesResponse?.data)}`);
+    logger.debug(`[Monobank API] Responded with status ${ratesResponse?.status} Data: ${JSON.stringify(ratesResponse?.data)}`);
 
     if (!ratesResponse?.data) {
       throw new Error('Monobank currency rates API is unavailable');

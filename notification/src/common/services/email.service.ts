@@ -21,7 +21,7 @@ export class EmailService {
   }
 
   public async sendCurrencyRateEmail(params: CurrencyRateEmailPayload): Promise<void> {
-    logger.info(`Sending currency rate email with params ${JSON.stringify(params)}`);
+    logger.debug(`Sending currency rate email with params ${JSON.stringify(params)}`);
     const payload = this.buildCurrencyRateEmailPayload(params);
     await this.sendEmail(payload);
   }

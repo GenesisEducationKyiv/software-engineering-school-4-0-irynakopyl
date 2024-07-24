@@ -3,9 +3,9 @@ import { serviceLocator } from '../../common/service-locator';
 import logger from '../../common/services/logger.service';
 
 export async function handleEvent(event: any): Promise<void> {
-  logger.info(`Received event ${JSON.stringify(event)}`);
+  logger.debug(`Received event ${JSON.stringify(event)}`);
   if (!event?.message?.value) {
-    logger.error('Empty message from Message Broker');
+    logger.warn('Empty message from Message Broker');
     return;
   }
   const eventPayload = JSON.parse(event.message.value.toString()) as SystemEvent;
@@ -14,7 +14,7 @@ export async function handleEvent(event: any): Promise<void> {
       await processCustomerCreated(eventPayload.data);
       break;
     default:
-      logger.error('Unknown event type');
+      logger.warn('Unknown event type');
   }
   return;
 }

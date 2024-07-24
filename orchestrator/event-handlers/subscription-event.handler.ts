@@ -10,7 +10,7 @@ export async function processSubscriptionCreated(
   },
   eventProducer: any
 ): Promise<void> {
-  logger.info(
+  logger.debug(
     `Sending customer create command with payload: ${JSON.stringify(data)}`
   );
   eventProducer.sendEvent(config.messageBroker.topics.customer, {

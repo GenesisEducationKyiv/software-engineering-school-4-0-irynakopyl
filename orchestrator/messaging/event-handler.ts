@@ -8,7 +8,7 @@ export async function handleEvent(
   event: any,
   eventProducer: any
 ): Promise<void> {
-  logger.info(`Received event ${JSON.stringify(event)}`);
+  logger.debug(`Received event ${JSON.stringify(event)}`);
   if (!event) {
     logger.error('Empty message from Message Broker');
     return;
