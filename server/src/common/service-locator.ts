@@ -1,3 +1,6 @@
+import { RatesRepository } from '../notification/data-access/repositories/rate.repository';
+import { RatesService } from '../notification/services/rate.service';
+import { EmailService } from '../notification/services/email.service';
 import { MonobankClient } from '../rate/data-access/exchangers/monobank-client';
 import { NBUClient } from '../rate/data-access/exchangers/nbu-client';
 import { Privat24Client } from '../rate/data-access/exchangers/privat24-client';
