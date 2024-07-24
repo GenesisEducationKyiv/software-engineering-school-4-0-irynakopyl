@@ -1,7 +1,7 @@
 import { config } from '../config';
 import { RatesRepository } from '../rate/data-access/repositories/rate.repository';
 import { Currency } from '../rate/service/models/currency';
-import { RateService } from '../rate/service/services/rate.service';
+import { RatesService } from '../rate/service/services/rate.service';
 import { SubscriptionsRepository } from '../subscription/data-access/repositories/subscription.repository';
 import { SubscriptionsService } from '../subscription/service/services/subscription.service';
 import { EmailService } from './services/email.service';
@@ -9,7 +9,7 @@ import logger from './services/logger.service';
 
 export async function sendCurrencyRateEmail(): Promise<void> {
   try {
-    const rateRepository = new RateService(new RatesRepository());
+    const rateRepository = new RatesService(new RatesRepository());
     const currentRate = await rateRepository.getLatest(Currency.USD);
     if (!currentRate) {
       logger.error('No currency rate data found');

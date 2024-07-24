@@ -1,5 +1,5 @@
 import { RatesRepository } from '../rate/data-access/repositories/rate.repository';
-import { RateService } from '../rate/service/services/rate.service';
+import { RatesService } from '../rate/service/services/rate.service';
 import { SubscriptionsRepository } from '../subscription/data-access/repositories/subscription.repository';
 import { SubscriptionsService } from '../subscription/service/services/subscription.service';
 import { EmailService } from './services/email.service';
@@ -12,7 +12,7 @@ export function serviceLocator() {
       return new SubscriptionsService(new SubscriptionsRepository());
     },
     ratesService: () => {
-      return new RateService(new RatesRepository());
+      return new RatesService(new RatesRepository());
     },
     emailService: () => {
       const emailService = new EmailService();
