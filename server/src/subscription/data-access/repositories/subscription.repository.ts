@@ -1,0 +1,51 @@
+import Subscriptions from '../../../common/db/models/subscription.model';
+import { v4 as uuidv4 } from 'uuid';
+import { SubscriptionRepository } from '../../service/services/subscription.service';
+import { Op } from 'sequelize';
+import { Subscription } from '../../service/models/subscription';
+
+export class SubscriptionsRepository implements SubscriptionRepository {
+  public async create(email: string): Promise<Subscription> {
+    return Subscriptions.create({ id: uuidv4(), createdAt: new Date(), email });
+  }
+
+  public async findByEmail(email: string) {
+    return Subscriptions.findOne({ where: { email: email } });
+  }
+
+  public async update(email: string, params: Pick<Subscription, 'isSetupDone'>): Promise<void> {
+    const currentSubscription = await this.findByEmail(email);
+    await currentSubscription?.update(params);
+  }
+
+  public async getAll(config?: { limit: number; createdAfter: Date }): Promise<Subscription[]> {
+    return Subscriptions.findAll({
+      order: [['createdAt', 'ASC']],
+      ...(config?.createdAfter
+        ? {
+            createdAt: {
+              [Op.gt]: config?.createdAfter,
+            },
+          }
+        : undefined),
+      where: {
+        ...(config?.createdAfter
+          ? {
+              createdAt: {
+                [Op.gt]: config?.createdAfter,
+              },
+            }
+          : undefined),
+      },
+      ...(config?.limit
+        ? {
+            limit: config.limit,
+          }
+        : undefined),
+    });
+  }
+
+  public async delete(email: string): Promise<void> {
+    await Subscriptions.update({ deletedAt: new Date() }, { where: { email: email } });
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "currency-rate-app",
+  "version": "1.0.0",
+  "description": "application that provides USD to UAH exchange rate",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc --build",
+    "start": "ts-node src/index.ts",
+    "migrate": "node-pg-migrate -m src/common/db/migrations -j ts",
+    "migrate-up": "ts-node --transpileOnly ./src/common/db/migrate-up.ts",
+    "migrate-down": "ts-node --transpileOnly ./src//common/db/migrate-down.ts",
+    "format": "prettier --write .",
+    "lint": "npx eslint ./src"
+  },
+  "keywords": [
+    "currency"
+  ],
+  "author": "Iryna Kopyl",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.4.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.12",
+    "@types/pg": "^8.11.6",
+    "@types/sinon": "^17.0.3",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^9.0.8",
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "globals": "^15.4.0",
+    "jest": "^29.7.0",
+    "kafkajs": "^2.2.4",
+    "node-pg-migrate": "^7.3.2",
+    "pg": "^8.11.5",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "4.42.0",
+    "sequelize-typescript": "0.6.6",
+    "sinon": "^18.0.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.12.0",
+    "uuid": "^9.0.1"
+  },
+  "dependencies": {
+    "googleapis": "^137.1.0",
+    "prettier": "^3.2.5"
+  }
+}
