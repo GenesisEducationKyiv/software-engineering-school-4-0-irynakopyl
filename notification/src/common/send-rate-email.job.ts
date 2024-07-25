@@ -18,7 +18,7 @@ export async function sendCurrencyRateEmail(): Promise<void> {
     const subscriptionService = new SubscriptionsService(new SubscriptionsRepository());
     const requestsLimit = config.api.emailServer.rateLimit;
 
-    logger.info(`[Scheduled job] [${new Date()}] going to send emails to subsribed users`);
+    logger.debug(`[Scheduled job] [${new Date()}] going to send emails to subsribed users`);
     let subcriptions = await subscriptionService.getAll({ limit: requestsLimit });
     let hasMore = !!subcriptions.length;
     const emailService = new EmailService();

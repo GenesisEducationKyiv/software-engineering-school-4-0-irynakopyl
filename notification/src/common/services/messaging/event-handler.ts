@@ -4,7 +4,7 @@ import * as subscriptionEventHandler from '../../../subscription/service/service
 import logger from '../logger.service';
 
 export async function handleEvent(event: any, topic: string): Promise<void> {
-  logger.info(`Received event ${JSON.stringify(event)}`);
+  logger.debug(`Received event ${JSON.stringify(event)}`);
   if (!event) {
     logger.error('Empty message from Message Broker');
     return;
@@ -17,7 +17,7 @@ export async function handleEvent(event: any, topic: string): Promise<void> {
       await subscriptionEventHandler.handleEvent(event);
       break;
     default:
-      logger.error('Unknown event type');
+      logger.warn('Unknown event type');
   }
   return;
 }

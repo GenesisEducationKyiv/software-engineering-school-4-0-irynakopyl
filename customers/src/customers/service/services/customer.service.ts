@@ -1,3 +1,4 @@
+import events_sent_total from '../../../common/metrics/events-sent';
 import { SystemEventType } from '../../../common/models/system-event.model';
 import { EventProducer } from '../../../common/services/messaging/event-producer';
 import { config } from '../../../config';
@@ -16,10 +17,12 @@ export class CustomerService {
 
   public async create(email: string): Promise<Customer> {
     const customer = await this.repository.create(email);
-    await this.eventProducer.sendEvent(config.messageBroker.topics.customersTransaction, {
+    const event = {
       data: { email },
       eventType: SystemEventType.CustomerCreated,
-    });
+    };
+    await this.eventProducer.sendEvent(config.messageBroker.topics.customersTransaction, event);
+    events_sent_total.inc({ topic: config.messageBroker.topics.customersTransaction, event: JSON.stringify(event) });
     return customer;
   }
 

@@ -3,6 +3,7 @@ import { ExchangeClient } from '../../service/exchanger.service';
 import { config } from '../../../config';
 import { Currency } from '../../service/models/currency';
 import logger from '../../../common/services/logger.service';
+import rate_request_total from '../../../common/metrics/rate-service-requests';
 
 export class NBUClient implements ExchangeClient {
   private axiosInstance;
@@ -13,7 +14,8 @@ export class NBUClient implements ExchangeClient {
 
   public async getCurrencyRate(): Promise<number> {
     const ratesResponse = await this.axiosInstance.get('/statdirectory/exchange?json');
-    logger.info(`[NBU API] Responded with status ${ratesResponse?.status} Data: ${JSON.stringify(ratesResponse?.data)}`);
+    rate_request_total.inc({ service: config.api.currency.nbu, response: ratesResponse.status });
+    logger.debug(`[NBU API] Responded with status ${ratesResponse?.status} Data: ${JSON.stringify(ratesResponse?.data)}`);
 
     if (!ratesResponse?.data) {
       throw new Error('NBU currency rates API is unavailable');

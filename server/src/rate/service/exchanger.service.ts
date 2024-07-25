@@ -14,7 +14,7 @@ export class ExchangerService {
   public async provideScheduledRateUpdates(eventProducer: EventProducer): Promise<void> {
     SchedulerService.initializeJob(config.cron.fetchRateSchedule, async () => {
       const currentRate = await this.exchangerHandler.getCurrencyRate();
-      logger.info(`Fetched currency rate: ${currentRate} and sending to the queue`);
+      logger.debug(`Fetched currency rate: ${currentRate} and sending to the queue`);
       await eventProducer.sendEvent(config.messageBroker.topics.rate, {
         data: { currencyRate: currentRate },
         eventType: SystemEventType.CurrencyRateUpdated,

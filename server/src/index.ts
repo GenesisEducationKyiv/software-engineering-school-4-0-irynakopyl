@@ -4,7 +4,7 @@ import logger from './common/services/logger.service';
 const port = process.env.PORT || 3000;
 
 initApp().catch((error) => {
-  logger.info(error);
+  logger.error(error);
 });
 
 app.listen(port, async () => {

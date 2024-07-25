@@ -24,7 +24,7 @@ export class DatabaseService {
 
   public async closeConnection(): Promise<void> {
     if (!this.sequelize) {
-      logger.info('Connection was not established, nothing to close.');
+      logger.warn('Connection was not established, nothing to close.');
       return;
     }
     try {

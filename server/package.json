@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "googleapis": "^137.1.0",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "prom-client": "^15.1.3"
   }
 }
