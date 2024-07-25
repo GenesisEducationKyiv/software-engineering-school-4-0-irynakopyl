@@ -2,7 +2,7 @@ import { Kafka, Producer } from 'kafkajs';
 import { SystemEvent } from '../common/system-event.model';
 import logger from '../common/logger.service';
 import { v4 as uuidv4 } from 'uuid';
-import { bootstrapKafka } from './kafka.service';
+import events_sent_total from '../common/metrics/events-sent';
 
 export interface EventProducer {
   sendEvent(
@@ -48,6 +48,10 @@ export class KafkaProducer implements EventProducer {
       await this.producer.send({
         topic: queueName,
         messages: [{ value: message }],
+      });
+      events_sent_total.inc({
+        topic: queueName,
+        event: message,
       });
     } catch (e) {
       logger.error(`Error sending message to ${queueName}: ${e}`);

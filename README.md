@@ -34,3 +34,13 @@ To run an application you need to:
 7. To run load tests you can use `k6 run src/tests/loading/<name-of-file>.js`. Read more about k6 at `https://k6.io/`
 
 Note: app uses Google credentials authentication, but from September 30th it is going to be blocked. Possible solution - switch to use OAuth for sending emails.
+
+Alerts to setup:
+
+- Errors that are handled by application (at least each time we log an error, throw an alert at the same place) E.g. error when sending email or not able to get currency rate from 3rd party for all providers.
+- For defined max rate limit for api.
+- For defined CPU level reached. E.g. 60%
+- For defined Databases Disk free space amount reached. E.g. 30%
+- For availability - (status) of each service we have in the application. E.g. Add healthcheck endpoint
+- Availability of Message Brocker E.g. Add healthcheck
+- Build failed

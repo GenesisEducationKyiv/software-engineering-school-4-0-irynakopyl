@@ -9,3 +9,6 @@ scrape_configs:
     static_configs:
       - targets:
           - server:3000
+          - customers:3000
+          - notification:3000
+          - orchestrator:3000

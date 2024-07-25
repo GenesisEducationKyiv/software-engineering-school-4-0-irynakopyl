@@ -1,7 +1,6 @@
 import { processCustomerCreated } from '../event-handlers/customers-events.handler';
 import { processSubscriptionCreated } from '../event-handlers/subscription-event.handler';
 import { SystemEvent, SystemEventType } from '../common/system-event.model';
-import { EventProducer } from './event-producer';
 import logger from '../common/logger.service';
 
 export async function handleEvent(

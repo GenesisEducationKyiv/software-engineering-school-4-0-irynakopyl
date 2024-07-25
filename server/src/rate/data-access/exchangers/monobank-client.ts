@@ -3,6 +3,7 @@ import { config } from '../../../config';
 import { ExchangeClient } from '../../service/exchanger.service';
 import { ISO4217CurrencyCodes } from '../../service/models/currency';
 import logger from '../../../common/services/logger.service';
+import rate_request_total from '../../../common/metrics/rate-service-requests';
 
 export class MonobankClient implements ExchangeClient {
   private axiosInstance;
@@ -12,6 +13,8 @@ export class MonobankClient implements ExchangeClient {
 
   public async getCurrencyRate(): Promise<number> {
     const ratesResponse = await this.axiosInstance.get('');
+    rate_request_total.inc({ service: config.api.currency.mono, response: ratesResponse.status });
+
     logger.debug(`[Monobank API] Responded with status ${ratesResponse?.status} Data: ${JSON.stringify(ratesResponse?.data)}`);
 
     if (!ratesResponse?.data) {

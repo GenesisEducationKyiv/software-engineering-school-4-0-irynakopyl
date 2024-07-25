@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { config } from '../../config';
 import { CurrencyRateEmailPayload, EmailPayload } from '../models/email-payload';
 import logger from './logger.service';
+import emails_sent_total from '../metrics/emails-sent';
 
 export class EmailService {
   private emailSender;
@@ -17,7 +18,8 @@ export class EmailService {
   }
 
   public async sendEmail(payload: EmailPayload) {
-    return this.emailSender.sendMail(payload);
+    await this.emailSender.sendMail(payload);
+    emails_sent_total.inc({ email: payload.to });
   }
 
   public async sendCurrencyRateEmail(params: CurrencyRateEmailPayload): Promise<void> {

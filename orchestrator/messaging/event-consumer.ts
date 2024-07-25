@@ -3,6 +3,7 @@ import { config } from '../config';
 import * as eventHandler from './event-handler';
 import { EventProducer } from './event-producer';
 import logger from '../common/logger.service';
+import events_received_total from '../common/metrics/events-received';
 
 export interface EventConsumer {
   addEventHandler(handler: (payload: any) => Promise<void>): Promise<void>;
@@ -56,6 +57,10 @@ export class KafkaConsumer implements EventConsumer {
           value: message?.value?.toString(),
         });
         await handler(message?.value?.toString());
+        events_received_total.inc({
+          topic: topic,
+          event: message?.value?.toString(),
+        });
       },
     });
   }

@@ -58,7 +58,6 @@
     "uuid": "^9.0.1"
   },
   "dependencies": {
-    "express-prom-bundle": "^7.0.0",
     "googleapis": "^137.1.0",
     "prettier": "^3.2.5",
     "prom-client": "^15.1.3"
